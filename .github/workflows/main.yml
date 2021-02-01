@@ -1,0 +1,73 @@
+name: Check notification
+
+on:
+  push: {}
+  release: {}
+
+jobs:
+  success:
+    name: One with everything
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: https://beheerinholland.webhook.office.com/webhookb2/e3fdc74b-2d11-432a-a04f-bcbed55ae97c@ad78d191-1044-4303-8212-b6f4dd7874bc/IncomingWebhook/97aae296a9ef43178efc472b8b5cff47/7e89cb38-911d-4032-bdd8-26fd5d05994b
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+          dry_run: True
+
+
+  without_optional_params:
+    name: One with little info
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: https://beheerinholland.webhook.office.com/webhookb2/e3fdc74b-2d11-432a-a04f-bcbed55ae97c@ad78d191-1044-4303-8212-b6f4dd7874bc/IncomingWebhook/97aae296a9ef43178efc472b8b5cff47/7e89cb38-911d-4032-bdd8-26fd5d05994b
+
+  with_overwrite:
+    name: One with overwrite
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: https://beheerinholland.webhook.office.com/webhookb2/e3fdc74b-2d11-432a-a04f-bcbed55ae97c@ad78d191-1044-4303-8212-b6f4dd7874bc/IncomingWebhook/97aae296a9ef43178efc472b8b5cff47/7e89cb38-911d-4032-bdd8-26fd5d05994b
+          overwrite: "{title: `Overwrote title in ${workflow_link}`}"
+
+  with_raw:
+    name: One with raw data
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: https://beheerinholland.webhook.office.com/webhookb2/e3fdc74b-2d11-432a-a04f-bcbed55ae97c@ad78d191-1044-4303-8212-b6f4dd7874bc/IncomingWebhook/97aae296a9ef43178efc472b8b5cff47/7e89cb38-911d-4032-bdd8-26fd5d05994b
+          raw: >-
+            {
+              "@type": "MessageCard",
+              "@context": "http://schema.org/extensions",
+              "title": "No ${variables} avaliable in here"
+            }
+
+  if_failure:
+    name: Only if failure
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: failure()
+        with:
+          webhook_url: https://beheerinholland.webhook.office.com/webhookb2/e3fdc74b-2d11-432a-a04f-bcbed55ae97c@ad78d191-1044-4303-8212-b6f4dd7874bc/IncomingWebhook/97aae296a9ef43178efc472b8b5cff47/7e89cb38-911d-4032-bdd8-26fd5d05994b
