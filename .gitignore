@@ -1,21 +1,19 @@
-/*
-/*/
-
 ###
 # Unity folders and files
 ###
 **/[Aa]ssets/AssetStoreTools*
-**/[Bb]uild/
-**/[Ll]ibrary/
-**/[Ll]ocal[Cc]ache/
-**/[Oo]bj/
-**/[Tt]emp/
-**/[Uu]nityGenerated/
-# file on crash reports
+**/[Bb]uild/**
+**/[Ll]ibrary/**
+**/Library/**
+**/[Ll]ocal[Cc]ache/**
+**/[Oo]bj/**
+**/[Tt]emp/**
+**/[Uu]nityGenerated/**
+Unity\Boomgaard simulatie\Library
+Unity\Boomgaard simulatie\Library\*
 sysinfo.txt
 # Unity3D generated meta files
 *.pidb.meta
-
 ###
 # VS/MD solution and project files
 ###
@@ -30,7 +28,6 @@ sysinfo.txt
 *.userprefs
 *.pidb
 .DS_Store
-
 ###
 # OS generated
 ###
