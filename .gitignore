@@ -12,7 +12,8 @@
 **/[Oo]bj/**
 **/[Tt]emp/**
 **/[Uu]nityGenerated/**
-# file on crash reports
+Unity\Boomgaard simulatie\Library
+Unity\Boomgaard simulatie\Library\*
 sysinfo.txt
 # Unity3D generated meta files
 *.pidb.meta
