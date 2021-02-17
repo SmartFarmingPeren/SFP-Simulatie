@@ -47,7 +47,7 @@ class PlotApp:
 
     def grow_tree(self, event):
         i = 0
-        while i < 10:
+        while i < 2000:
             self.tree.grow()
             i += 1
 
@@ -68,10 +68,10 @@ class PlotApp:
         self.clear_canvas()
         self.tree.reshuffleLeaves()
         self.tree.newTree()
-        self.update()
+        #self.update()
 
-    def update(self):
-        self.draw()
+    #def update(self):
+        #self.draw()
 
     def draw(self):
         leavesPosX = []
@@ -122,6 +122,26 @@ class PlotApp:
         DIR = os.getcwd() + '\\SpaceColonizationSim3D\\xyz'
         DIR = DIR.replace('\\', '/')
         amount_of_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+#        for branch in reversed(self.tree.branches):
+ #           branch.length = 2
+  #          if(branch.parent is not None):
+   #             dirx = branch.parent.pos[0] - branch.pos[0]
+    #            print(dirx)
+     #           diry = branch.parent.pos[1] - branch.pos[1]
+      #          print(diry)
+       #         dirz = branch.parent.pos[2] - branch.pos[2]
+        #        print(dirz)
+         #       direct = [dirx, diry, dirz]
+          #      print(direct)
+           #     print(branch.direction)
+            #    branch.direction = direct
+             #   print(branch.direction)
+              #  i = 0
+               # print('length : ' + str(branch.length) + " || direction : " + str(branch.direction[0]) + ':' + str(branch.direction[1]) + ':' + str(branch.direction[2]))
+                #while i < 5:
+                 #   i += 1
+                  #  self.tree.branches.append(branch.next())
+                   # branch.length += 2 
         with open(DIR + '/default-tree' + str() + str(amount_of_files) + ".xyz", 'w') as f:
             for branch in self.tree.branches:
                 points = str(branch.pos[0]) + ' ' + str(branch.pos[1]) + ' ' + str(branch.pos[2]) + '\n'

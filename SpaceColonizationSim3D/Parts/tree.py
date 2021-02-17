@@ -24,6 +24,7 @@ class Tree:
             j = 0
             closestBranch = None
             closest_record = 1000
+            print(len(self.branches))
             for branch in self.branches:
                 distance = self.calculateDistance(leaf.pos, branch.pos)
                 if distance < min_dist:

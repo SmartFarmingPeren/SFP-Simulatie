@@ -12,6 +12,8 @@ class Branch:
 
     def next(self):
         nextDir = self.direction * self.length
+        #print(self.direction)
+        #print(nextDir)
         nextPos = self.pos + nextDir
         self.last = False
         self.color = "brown"
