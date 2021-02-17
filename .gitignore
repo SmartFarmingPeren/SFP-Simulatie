@@ -18,6 +18,7 @@ sysinfo.txt
 # VS/MD solution and project files
 ###
 [Ee]xportedObj/
+xyz/
 *.booproj
 *.csproj
 *.sln

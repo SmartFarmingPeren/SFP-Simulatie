@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import os
 import os.path
+import datetime
 from Parts.tree import Tree
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.widgets import Button
@@ -47,12 +48,12 @@ class PlotApp:
 
     def grow_tree(self, event):
         i = 0
-        while i < 2000:
+        while i < 2:
             self.tree.grow()
             i += 1
 
         self.clear_canvas()
-        self.update()
+        #self.update()
 
     def clear_canvas(self):
         self.ax.cla()
@@ -142,7 +143,7 @@ class PlotApp:
                  #   i += 1
                   #  self.tree.branches.append(branch.next())
                    # branch.length += 2 
-        with open(DIR + '/default-tree' + str() + str(amount_of_files) + ".xyz", 'w') as f:
+        with open(DIR + '/gen' + str(amount_of_files) + '_' + str(datetime.date.today().strftime("%d_%m")) +  "_centroid.xyz", 'w') as f:
             for branch in self.tree.branches:
                 points = str(branch.pos[0]) + ' ' + str(branch.pos[1]) + ' ' + str(branch.pos[2]) + '\n'
                 f.write(points)
