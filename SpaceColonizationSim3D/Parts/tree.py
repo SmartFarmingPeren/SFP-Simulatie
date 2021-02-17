@@ -25,17 +25,16 @@ class Tree:
             closestBranch = None
             closest_record = 1000
             for branch in self.branches:
-                if branch.child is None or branch.child is not None and branch.child.child is None:
-                    distance = self.calculateDistance(leaf.pos, branch.pos)
-                    if distance < min_dist:
-                        leaf.reached = True
-                        closestBranch = None
-                        break
-                    elif closestBranch is None or distance < closest_record:
-                        closestBranch = branch
-                        closest_record = distance
-                    elif distance > max_dist:
-                        pass
+                distance = self.calculateDistance(leaf.pos, branch.pos)
+                if distance < min_dist:
+                    leaf.reached = True
+                    closestBranch = None
+                    break
+                elif closestBranch is None or distance < closest_record:
+                    closestBranch = branch
+                    closest_record = distance
+                elif distance > max_dist:
+                    pass
                 j += 1
             i += 1
 
@@ -74,12 +73,12 @@ class Tree:
     def newTree(self):
         self.branches.clear()
 
-        pos = np.array([[250],
-                        [500],
-                        [250]])
-        direction = np.array([[0],
-                              [-5],
-                              [0]])
+        pos = np.array([250,
+                        500,
+                        250])
+        direction = np.array([0,
+                              -5,
+                              0])
         self.root = Branch(pos, direction, True)
         self.branches.append(self.root)
 
@@ -103,12 +102,12 @@ class Tree:
 
     def calculateDistance(self, posBegin, posDestination):
         Absolute_x_y_z = np.absolute(posBegin - posDestination)
-        Distance = int(Absolute_x_y_z[0][0] ** 2 + Absolute_x_y_z[1][0] ** 2 + Absolute_x_y_z[2][0] ** 2)
+        Distance = int(Absolute_x_y_z[0] ** 2 + Absolute_x_y_z[1] ** 2 + Absolute_x_y_z[2] ** 2)
         return Distance
 
     def trimleaves(self):
         for leaf in reversed(self.leaves):
-            if  225 < leaf.pos[0][0] < 275:
+            if  225 < leaf.pos[0] < 275:
                 self.leaves.remove(leaf)
-            elif 225 < leaf.pos[2][0]< 275:
+            elif 225 < leaf.pos[2]< 275:
                 self.leaves.remove(leaf)

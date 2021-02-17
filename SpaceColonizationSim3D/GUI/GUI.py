@@ -13,16 +13,6 @@ class PlotApp:
         self.tree = Tree()
         self.generation = 0
 
-        self.leaves_xarray = []
-        self.leaves_yarray = []
-        self.leaves_zarray = []
-        self.splitLeaves()
-
-        self.branches_xarray = []
-        self.branches_yarray = []
-        self.branches_zarray = []
-        self.splitBranches()
-
         self.window_height = w_height
         self.window_width = w_width
         self.fig = plt.figure('3D Space Colonization Algorithm')
@@ -80,33 +70,29 @@ class PlotApp:
         self.tree.newTree()
         self.update()
 
-    def clearArrays(self):
-        self.branches_xarray.clear()
-        self.branches_yarray.clear()
-        self.branches_zarray.clear()
-        self.leaves_xarray.clear()
-        self.leaves_yarray.clear()
-        self.leaves_zarray.clear()
-
     def update(self):
-        self.clearArrays()
-        self.splitLeaves()
-        self.splitBranches()
         self.draw()
 
     def draw(self):
-        self.ax.scatter3D(self.leaves_xarray,
-                          self.leaves_yarray,
-                          self.leaves_zarray,
+        leavesPosX = []
+        leavesPosY = []
+        leavesPosZ = []
+        for leaf in self.tree.leaves:
+            leavesPosX.append(leaf.pos[0])
+            leavesPosY.append(leaf.pos[1])
+            leavesPosZ.append(leaf.pos[2])
+        self.ax.scatter3D(leavesPosX,
+                          leavesPosY,
+                          leavesPosZ,
                           s=5,
                           c="green")
 
         Thiccness = 1
         for branch in self.tree.branches:
             if branch.parent is not None:
-                x = [branch.pos[0][0], branch.parent.pos[0][0]]
-                y = [branch.pos[1][0], branch.parent.pos[1][0]]
-                z = [branch.pos[2][0], branch.parent.pos[2][0]]
+                x = [branch.pos[0], branch.parent.pos[0]]
+                y = [branch.pos[1], branch.parent.pos[1]]
+                z = [branch.pos[2], branch.parent.pos[2]]
                 if Thiccness >= 1:
                     if not branch.last:
                         if self.checkforTruncate(branch):
@@ -121,18 +107,6 @@ class PlotApp:
         #                self.branches_yarray,
         #                self.branches_zarray,
         #                c="blue")
-
-    def splitLeaves(self):
-        for leaf in self.tree.leaves:
-            self.leaves_xarray.append(leaf.pos[0][0])
-            self.leaves_yarray.append(leaf.pos[1][0])
-            self.leaves_zarray.append(leaf.pos[2][0])
-
-    def splitBranches(self):
-        for branch in reversed(self.tree.branches):
-            self.branches_xarray.append(branch.pos[0][0])
-            self.branches_yarray.append(branch.pos[1][0])
-            self.branches_zarray.append(branch.pos[2][0])
 
     def checkforTruncate(self, branch):
         count = 0
@@ -149,9 +123,7 @@ class PlotApp:
         DIR = DIR.replace('\\', '/')
         amount_of_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
         with open(DIR + '/default-tree' + str() + str(amount_of_files) + ".xyz", 'w') as f:
-            i = 0
-            for x in self.branches_xarray:
-                points = str(self.branches_xarray[i]) + ' ' +str(self.branches_yarray[i]) + ' ' + str(self.branches_zarray[i]) + '\n'
+            for branch in self.tree.branches:
+                points = str(branch.pos[0]) + ' ' + str(branch.pos[1]) + ' ' + str(branch.pos[2]) + '\n'
                 f.write(points)
-                i = i + 1
             f.close()
