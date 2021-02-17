@@ -25,16 +25,17 @@ class Tree:
             closestBranch = None
             closest_record = 1000
             for branch in self.branches:
-                distance = self.calculateDistance(leaf.pos, branch.pos)
-                if distance < min_dist:
-                    leaf.reached = True
-                    closestBranch = None
-                    break
-                elif closestBranch is None or distance < closest_record:
-                    closestBranch = branch
-                    closest_record = distance
-                elif distance > max_dist:
-                    pass
+                if branch.child is None or branch.child is not None and branch.child.child is None:
+                    distance = self.calculateDistance(leaf.pos, branch.pos)
+                    if distance < min_dist:
+                        leaf.reached = True
+                        closestBranch = None
+                        break
+                    elif closestBranch is None or distance < closest_record:
+                        closestBranch = branch
+                        closest_record = distance
+                    elif distance > max_dist:
+                        pass
                 j += 1
             i += 1
 

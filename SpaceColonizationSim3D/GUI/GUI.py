@@ -46,8 +46,8 @@ class PlotApp:
 
         # Save to point cloud
         axSave = plt.axes([0.45, 0.02, 0.1, 0.075])
-        self.bReset = Button(axSave, 'Save')
-        self.bReset.on_clicked(self.save)
+        self.bSave = Button(axSave, 'Save')
+        self.bSave.on_clicked(self.save)
 
         # Set camera to front-facing.
         self.ax.view_init(elev=100, azim=90)
@@ -145,9 +145,10 @@ class PlotApp:
             return False
 
     def save(self, branch):
-        DIR = 'xyz'
+        DIR = os.getcwd() + '\\SpaceColonizationSim3D\\xyz'
+        DIR = DIR.replace('\\', '/')
         amount_of_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
-        with open("xyz/default-tree" + str() + str(amount_of_files) + ".xyz", 'w') as f:
+        with open(DIR + '/default-tree' + str() + str(amount_of_files) + ".xyz", 'w') as f:
             i = 0
             for x in self.branches_xarray:
                 points = str(self.branches_xarray[i]) + ' ' +str(self.branches_yarray[i]) + ' ' + str(self.branches_zarray[i]) + '\n'
