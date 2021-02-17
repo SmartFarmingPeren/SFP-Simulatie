@@ -7,7 +7,7 @@ PointSize = 2 / 2
 
 
 class PlotApp:
-    def __init__(self, w_width=400, w_height=400):
+    def __init__(self, w_width=1000, w_height=1000):
         self.tree = Tree()
         self.generation = 0
 
@@ -27,11 +27,11 @@ class PlotApp:
         self.ax = Axes3D(self.fig)
 
         self.ax.set_xlabel('Width')
-        self.ax.set_xlim3d(0, 500)
+        self.ax.set_xlim3d(0, 400)
         self.ax.set_ylabel('Height')
-        self.ax.set_ylim3d(0, 500)
+        self.ax.set_ylim3d(0, 400)
         self.ax.set_zlabel('Depth')
-        self.ax.set_zlim3d(0, 500)
+        self.ax.set_zlim3d(0, 400)
 
         # Generate buttons
         axReset = plt.axes([0.7, 0.02, 0.1, 0.075])
