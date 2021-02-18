@@ -3,7 +3,7 @@ import math
 from Parts.leaf import Leaf
 from Parts.branch import Branch
 
-AmountOfLeaves = 100
+AmountOfLeaves = 200
 min_dist = 400      # 20 ** 2, minimal distance is squared to remove a slow squareroot
 max_dist = 2500      # 50 ** 2, maximal distance is squared to remove a slow squareroot
 
@@ -16,16 +16,19 @@ class Tree:
 
         self.branches = []  #array of object branches
         self.root = None
-        self.newTree()
+        self.newTree()  #make a new tree
 
     def grow(self):
         i = 0
+
+
         for leaf in self.leaves:
             j = 0
             closestBranch = None
             closest_record = 1000
             for branch in self.branches:
                 distance = self.calculateDistance(leaf.pos, branch.pos)
+                print(branch.branchid)
                 if distance < min_dist:
                     leaf.reached = True
                     closestBranch = None
@@ -63,7 +66,7 @@ class Tree:
             i += 1
 
     def reshuffleLeaves(self):
-        self.leaves.clear()
+        self.leaves.clear()  # remove all leaves
         i = 0
         while i < AmountOfLeaves:
             self.leaves.append(Leaf())
@@ -74,7 +77,7 @@ class Tree:
         self.branches.clear()
 
         pos = np.array([[250],
-                        [425],
+                        [500],
                         [250]])
         direction = np.array([[0],
                               [-5],
