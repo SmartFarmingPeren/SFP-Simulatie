@@ -19,6 +19,8 @@ sysinfo.txt
 ###
 [Ee]xportedObj/
 xyz/
+venv/
+__pycache__/
 *.booproj
 *.csproj
 *.sln
