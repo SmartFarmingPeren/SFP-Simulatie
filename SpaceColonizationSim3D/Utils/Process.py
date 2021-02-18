@@ -2,62 +2,31 @@ import matplotlib.pyplot as plt
 import os
 import os.path
 import datetime
-import threading
-from utils.Process import treeProcess
+from multiprocessing import Process
 from parts.Tree import Tree
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.widgets import Button
 
-PointSize = 2 / 2
+class treeProcess(Process):
 
 
-class PlotApp:
-    def __init__(self, w_width=800, w_height=800):
+    def __init__(self, ax):
+        super(treeProcess, self).__init__()
         self.tree = Tree()
         self.generation = 0
+        self.ax = ax
 
-        self.window_height = w_height
-        self.window_width = w_width
-        self.fig = plt.figure('3D Space Colonization Algorithm')
-        self.ax = Axes3D(self.fig)
+    def run(self):
+        self.grow_tree()
+        self.save()
 
-        self.ax.set_xlabel('Width')
-        self.ax.set_xlim3d(0, 500)
-        self.ax.set_ylabel('Height')
-        self.ax.set_ylim3d(0, 500)
-        self.ax.set_zlabel('Depth')
-        self.ax.set_zlim3d(0, 500)
-
-        # Generate buttons
-        axReset = plt.axes([0.7, 0.02, 0.1, 0.075])
-        self.bReset = Button(axReset, 'Reset')
-        self.bReset.on_clicked(self.reset)
-
-        axGrow = plt.axes([0.2, 0.02, 0.1, 0.075])
-        self.bGrow = Button(axGrow, 'Grow')
-        self.bGrow.on_clicked(self.grow_tree)
-
-        # Save to point cloud
-        axSave = plt.axes([0.45, 0.02, 0.1, 0.075])
-        self.bSave = Button(axSave, 'Save')
-        self.bSave.on_clicked(self.save)
-
-        # Set camera to front-facing.
-        self.ax.view_init(elev=100, azim=90)
-
-    def show(self):
-        plt.show()
-
-    def grow_tree(self, event):
+    def grow_tree(self):
         i = 0
-        while i < 4:
-            tmp = treeProcess(self.ax)
-            tmp.start()
-        #    self.tree.grow()
+        while i < 2000:
+            self.tree.grow()
             i += 1
 
-        #self.clear_canvas()
-        #self.update()
+        self.clear_canvas()
 
     def clear_canvas(self):
         self.ax.cla()
@@ -73,10 +42,10 @@ class PlotApp:
         self.clear_canvas()
         self.tree.reshuffleLeaves()
         self.tree.newTree()
-        self.update()
+        #self.update()
 
-    def update(self):
-        self.draw()
+    #def update(self):
+        #self.draw()
 
     def draw(self):
         leavesPosX = []

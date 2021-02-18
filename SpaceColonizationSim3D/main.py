@@ -1,4 +1,4 @@
-from GUI.GUI import PlotApp
+from gui.GUI import PlotApp
 import matplotlib.pyplot as plt
 import datetime
 

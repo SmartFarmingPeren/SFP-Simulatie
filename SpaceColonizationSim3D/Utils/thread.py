@@ -3,7 +3,7 @@ import os
 import os.path
 import datetime
 import threading
-from Parts.tree import Tree
+from parts.Tree import Tree
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.widgets import Button
 
