@@ -2,38 +2,62 @@ import matplotlib.pyplot as plt
 import os
 import os.path
 import datetime
-import math
-from multiprocessing import Process
+import threading
+from utils.Process import treeProcess
 from parts.Tree import Tree
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.widgets import Button
-pi = math.pi
+
+PointSize = 2 / 2
 
 
-#https://stackoverflow.com/questions/8487893/generate-all-the-points-on-the-circumference-of-a-circle
-def PointsInCircum(r, x, y, z, n=100):
-    return [(math.cos(2*pi/n*I)*r+x, y, math.sin(2*pi/n*I)*r+z) for I in range(0,n+1)]
-
-class treeProcess(Process):
-
-
-    def __init__(self, ax):
-        super(treeProcess, self).__init__()
+class PlotApp:
+    def __init__(self, w_width=800, w_height=800):
         self.tree = Tree()
         self.generation = 0
-        self.ax = ax
 
-    def run(self):
-        self.grow_tree()
-        self.save()
+        self.window_height = w_height
+        self.window_width = w_width
+        self.fig = plt.figure('3D Space Colonization Algorithm')
+        self.ax = Axes3D(self.fig)
 
-    def grow_tree(self):
+        self.ax.set_xlabel('Width')
+        self.ax.set_xlim3d(0, 500)
+        self.ax.set_ylabel('Height')
+        self.ax.set_ylim3d(0, 500)
+        self.ax.set_zlabel('Depth')
+        self.ax.set_zlim3d(0, 500)
+
+        # Generate buttons
+        axReset = plt.axes([0.7, 0.02, 0.1, 0.075])
+        self.bReset = Button(axReset, 'Reset')
+        self.bReset.on_clicked(self.reset)
+
+        axGrow = plt.axes([0.2, 0.02, 0.1, 0.075])
+        self.bGrow = Button(axGrow, 'Grow')
+        self.bGrow.on_clicked(self.grow_tree)
+
+        # Save to point cloud
+        axSave = plt.axes([0.45, 0.02, 0.1, 0.075])
+        self.bSave = Button(axSave, 'Save')
+        self.bSave.on_clicked(self.save)
+
+        # Set camera to front-facing.
+        self.ax.view_init(elev=100, azim=90)
+
+    def show(self):
+        plt.show()
+
+    def grow_tree(self, event):
         i = 0
-        while i < 100:
-            self.tree.grow()
+        while i < 8:
+            tmp = treeProcess(self.ax)
+            tmp.start()
+        #    self.tree.grow()
             i += 1
 
-        self.clear_canvas()
+        #self.clear_canvas()
+        #self.update()
 
     def clear_canvas(self):
         self.ax.cla()
@@ -49,10 +73,10 @@ class treeProcess(Process):
         self.clear_canvas()
         self.tree.reshuffleLeaves()
         self.tree.newTree()
-        #self.update()
+        self.update()
 
-    #def update(self):
-        #self.draw()
+    def update(self):
+        self.draw()
 
     def draw(self):
         leavesPosX = []
@@ -128,13 +152,7 @@ class treeProcess(Process):
                 points = str(branch.pos[0]) + ' ' + str(branch.pos[1]) + ' ' + str(branch.pos[2]) + '\n'
                 f.write(points)
             f.close()
-        branchesWithThiccness = []
-        for branch in self.tree.branches:
-            circle = PointsInCircum(math.log(math.log(branch.Thickness) + 1) ** 2, branch.pos[0], branch.pos[1], branch.pos[2])
-            for point in circle:
-                branchesWithThiccness.append(point)
-        with open(DIR + '/gen' + str(amount_of_files) + '_' + str(datetime.date.today().strftime("%d_%m")) +  "_centroid_thickness.xyz", 'w') as f:
-            for branch in branchesWithThiccness:
-                points = str(branch[0]) + ' ' + str(branch[1]) + ' ' + str(branch[2]) + '\n'
-                f.write(points)
+        with open(DIR + '/gen' + str(amount_of_files) + '_' + str(datetime.date.today().strftime("%d_%m")) +  "_centroid_thickness.thicc", 'w') as f:
+            for branch in self.tree.branches:
+                f.write(str(branch.Thickness) + '\n')
             f.close()

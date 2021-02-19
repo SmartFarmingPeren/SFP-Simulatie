@@ -2,16 +2,21 @@ import matplotlib.pyplot as plt
 import os
 import os.path
 import datetime
-import threading
+import math
+from multiprocessing import Process
 from parts.Tree import Tree
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.widgets import Button
+pi = math.pi
 
-class treeThread(threading.Thread):
+def PointsInCircum(r, x, y, z, n=100):
+    return [(math.cos(2*pi/n*I)*r+x, y, math.sin(2*pi/n*I)*r+z) for I in range(0,n+1)]
+
+class treeProcess(Process):
 
 
-    def __init__(self, ax, args=(), kwargs=None):
-        threading.Thread.__init__(self, args=(), kwargs=None)
+    def __init__(self, ax):
+        super(treeProcess, self).__init__()
         self.tree = Tree()
         self.generation = 0
         self.ax = ax
@@ -22,7 +27,7 @@ class treeThread(threading.Thread):
 
     def grow_tree(self):
         i = 0
-        while i < 2000:
+        while i < 100:
             self.tree.grow()
             i += 1
 
@@ -119,5 +124,15 @@ class treeThread(threading.Thread):
         with open(DIR + '/gen' + str(amount_of_files) + '_' + str(datetime.date.today().strftime("%d_%m")) +  "_centroid.xyz", 'w') as f:
             for branch in self.tree.branches:
                 points = str(branch.pos[0]) + ' ' + str(branch.pos[1]) + ' ' + str(branch.pos[2]) + '\n'
+                f.write(points)
+            f.close()
+        branchesWithThiccness = []
+        for branch in self.tree.branches:
+            circle = PointsInCircum(math.log(math.log(branch.Thickness) + 1) ** 2, branch.pos[0], branch.pos[1], branch.pos[2])
+            for point in circle:
+                branchesWithThiccness.append(point)
+        with open(DIR + '/gen' + str(amount_of_files) + '_' + str(datetime.date.today().strftime("%d_%m")) +  "_centroid_thickness.xyz", 'w') as f:
+            for branch in branchesWithThiccness:
+                points = str(branch[0]) + ' ' + str(branch[1]) + ' ' + str(branch[2]) + '\n'
                 f.write(points)
             f.close()
