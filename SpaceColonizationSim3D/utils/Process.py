@@ -1,27 +1,64 @@
-import matplotlib.pyplot as plt
 import os
 import os.path
 import datetime
 import math
 from multiprocessing import Process
+
+import numpy as np
+
 from parts.Tree import Tree
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib.widgets import Button
 pi = math.pi
 
 
-#https://stackoverflow.com/questions/8487893/generate-all-the-points-on-the-circumference-of-a-circle
-def PointsInCircum(r, x, y, z, rotation, n=100):
+# https://stackoverflow.com/questions/8487893/generate-all-the-points-on-the-circumference-of-a-circle
+def points_in_circum(r, x, y, z, n=100):
     points = [((math.cos(2*pi/n*I)*r+x), y, math.sin(2*pi/n*I)*r+z) for I in range(0,n+1)]
 
     return points
 
+def rotate_around_point(input, origin, direction):
+    x_axis, y_axis, z_axis = (0, 0, 0)
 
-class treeProcess(Process):
+    if direction[0] != 0:
+        if direction[1] == 0:
+            x_axis = np.deg2rad(90)
+        else:
+            x_axis = np.tan(direction[1] / np.sqrt(direction[0] ** 2 + direction[1] ** 2))
+    else:
+        x_axis = 0
 
+    y_axis = 0
+
+    if direction[2] != 0:
+        if direction[1] == 0:
+            z_axis = np.deg2rad(90)
+        else:
+            z_axis = np.tan(direction[1] / np.sqrt(direction[2] ** 2 + direction[1] ** 2))
+    else:
+        z_axis = 0
+
+    pitch = x_axis
+    yaw = y_axis
+    roll = z_axis
+
+    x_rotation = [[np.cos(pitch), -np.sin(pitch), 0],
+                  [np.sin(pitch), np.cos(pitch), 0],
+                  [0, 0, 1]]
+    y_rotation = [[np.cos(yaw), 0, np.sin(yaw)],
+                  [0, 1, 0],
+                  [-np.sin(yaw), 0, np.cos(yaw)]]
+    z_rotation = [[1, 0, 0],
+                  [0, np.cos(roll), -np.sin(roll)],
+                  [0, np.sin(roll), np.cos(roll)]]
+    r_total = np.matmul(np.matmul(x_rotation, y_rotation), z_rotation)
+
+    output = np.matmul(r_total, input)
+    return output
+
+class TreeProcess(Process):
 
     def __init__(self, ax):
-        super(treeProcess, self).__init__()
+        super(TreeProcess, self).__init__()
         self.tree = Tree()
         self.generation = 0
         self.ax = ax
