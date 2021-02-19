@@ -50,7 +50,7 @@ class PlotApp:
 
     def grow_tree(self, event):
         i = 0
-        while i < 1:
+        while i < 8:
             tmp = treeProcess(self.ax)
             tmp.start()
         #    self.tree.grow()

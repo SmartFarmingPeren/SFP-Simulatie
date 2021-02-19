@@ -2,10 +2,17 @@ import matplotlib.pyplot as plt
 import os
 import os.path
 import datetime
+import math
 from multiprocessing import Process
 from parts.Tree import Tree
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.widgets import Button
+pi = math.pi
+
+
+#https://stackoverflow.com/questions/8487893/generate-all-the-points-on-the-circumference-of-a-circle
+def PointsInCircum(r, x, y, z, n=100):
+    return [(math.cos(2*pi/n*I)*r+x, y, math.sin(2*pi/n*I)*r+z) for I in range(0,n+1)]
 
 class treeProcess(Process):
 
@@ -121,7 +128,13 @@ class treeProcess(Process):
                 points = str(branch.pos[0]) + ' ' + str(branch.pos[1]) + ' ' + str(branch.pos[2]) + '\n'
                 f.write(points)
             f.close()
-        with open(DIR + '/gen' + str(amount_of_files) + '_' + str(datetime.date.today().strftime("%d_%m")) +  "_centroid_thickness.thicc", 'w') as f:
-            for branch in self.tree.branches:
-                f.write(str(branch.Thickness) + '\n')
+        branchesWithThiccness = []
+        for branch in self.tree.branches:
+            circle = PointsInCircum(math.log(math.log(branch.Thickness) + 1) ** 2, branch.pos[0], branch.pos[1], branch.pos[2])
+            for point in circle:
+                branchesWithThiccness.append(point)
+        with open(DIR + '/gen' + str(amount_of_files) + '_' + str(datetime.date.today().strftime("%d_%m")) +  "_centroid_thickness.xyz", 'w') as f:
+            for branch in branchesWithThiccness:
+                points = str(branch[0]) + ' ' + str(branch[1]) + ' ' + str(branch[2]) + '\n'
+                f.write(points)
             f.close()
