@@ -21,6 +21,7 @@ sysinfo.txt
 xyz/
 venv/
 __pycache__/
+.idea/
 *.booproj
 *.csproj
 *.sln
@@ -30,6 +31,7 @@ __pycache__/
 *.user
 *.userprefs
 *.pidb
+*.xyz
 .DS_Store
 ###
 # OS generated
@@ -42,3 +44,5 @@ __pycache__/
 Icon?
 ehthumbs.db
 Thumbs.db
+*.xml
+*.iml
