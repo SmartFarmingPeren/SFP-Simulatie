@@ -50,7 +50,7 @@ class PlotApp:
 
     def grow_tree(self, event):
         i = 0
-        while i < 4:
+        while i < 1:
             tmp = treeProcess(self.ax)
             tmp.start()
         #    self.tree.grow()
@@ -151,4 +151,8 @@ class PlotApp:
             for branch in self.tree.branches:
                 points = str(branch.pos[0]) + ' ' + str(branch.pos[1]) + ' ' + str(branch.pos[2]) + '\n'
                 f.write(points)
+            f.close()
+        with open(DIR + '/gen' + str(amount_of_files) + '_' + str(datetime.date.today().strftime("%d_%m")) +  "_centroid_thickness.thicc", 'w') as f:
+            for branch in self.tree.branches:
+                f.write(str(branch.Thickness) + '\n')
             f.close()
