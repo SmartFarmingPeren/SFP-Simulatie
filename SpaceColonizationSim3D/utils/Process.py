@@ -11,10 +11,14 @@ pi = math.pi
 
 
 # https://stackoverflow.com/questions/8487893/generate-all-the-points-on-the-circumference-of-a-circle
-def points_in_circum(r, x, y, z, n=100):
+def points_in_circum(r, origin, direction, n=100):
+    x, y, z = origin
+    print(x,y,z)
     points = [((math.cos(2*pi/n*I)*r+x), y, math.sin(2*pi/n*I)*r+z) for I in range(0,n+1)]
-
-    return points
+    rotated_points = []
+    for point in points:
+        rotated_points.append(rotate_around_point(point, origin, direction))
+    return rotated_points
 
 def rotate_around_point(input, origin, direction):
     x_axis, y_axis, z_axis = (0, 0, 0)
@@ -116,7 +120,7 @@ class TreeProcess(Process):
                 z = [branch.pos[2], branch.parent.pos[2]]
                 if Thiccness >= 1:
                     if not branch.last:
-                        if self.checkforTruncate(branch):
+                        if self.check_for_truncate(branch):
                             branch.color = "red"
                     self.ax.plot3D(x,
                                    y,
@@ -129,7 +133,7 @@ class TreeProcess(Process):
         #                self.branches_zarray,
         #                c="blue")
 
-    def checkforTruncate(self, branch):
+    def check_for_truncate(self, branch):
         count = 0
         for b in self.tree.branches:
             if all((b.pos - 5) < branch.pos) and all(branch.pos < (b.pos + 5)):
@@ -170,7 +174,7 @@ class TreeProcess(Process):
             f.close()
         branchesWithThiccness = []
         for branch in self.tree.branches:
-            circle = PointsInCircum(math.sqrt(branch.Thickness/10 + 1), branch.pos[0], branch.pos[1], branch.pos[2], branch.direction)
+            circle = points_in_circum(math.sqrt(branch.Thickness/10 + 1), branch.pos, branch.direction)
             for point in circle:
                 branchesWithThiccness.append(point)
         with open(DIR + '/gen' + str(amount_of_files) + '_' + str(datetime.date.today().strftime("%d_%m")) +  "_centroid_thickness.xyz", 'w') as f:

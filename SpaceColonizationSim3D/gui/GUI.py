@@ -3,7 +3,7 @@ import os
 import os.path
 import datetime
 import threading
-from utils.Process import treeProcess
+from utils.Process import TreeProcess
 from parts.Tree import Tree
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.widgets import Button
@@ -51,7 +51,7 @@ class PlotApp:
     def grow_tree(self, event):
         i = 0
         while i < 1:
-            tmp = treeProcess(self.ax)
+            tmp = TreeProcess(self.ax)
             tmp.start()
         #    self.tree.grow()
             i += 1
