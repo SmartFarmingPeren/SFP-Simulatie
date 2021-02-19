@@ -6,6 +6,7 @@ from multiprocessing import Process
 
 import numpy as np
 
+import RotationTest
 from parts.Tree import Tree
 pi = math.pi
 
@@ -17,54 +18,8 @@ def points_in_circum(r, origin, direction, n=100):
     points = [((math.cos(2*pi/n*I)*r+x), y, math.sin(2*pi/n*I)*r+z) for I in range(0,n+1)]
     rotated_points = []
     for point in points:
-        rotated_points.append(rotate_around_point(point, origin, direction))
+        rotated_points.append(RotationTest.rotate_around_point(point, origin, direction))
     return rotated_points
-
-def rotate_around_point(input, origin, direction):
-    x_axis, y_axis, z_axis = (0, 0, 0)
-
-    if direction[0] != 0:
-        if direction[1] == 0:
-            x_axis = np.tan(direction[1] / np.sqrt(direction[0] ** 2 + direction[1] ** 2))
-        else:
-            x_axis = np.deg2rad(90)
-    else:
-        x_axis = 0
-
-    if direction[0] != 0:
-        if direction[2] != 0:
-            y_axis = np.tan(direction[2] / np.sqrt(direction[0] ** 2 + direction[2] ** 2))
-        else:
-            y_axis = np.deg2rad(90)
-    else:
-        y_axis = 0
-
-    if direction[2] != 0:
-        if direction[1] == 0:
-            z_axis = np.tan(direction[1] / np.sqrt(direction[2] ** 2 + direction[1] ** 2))
-        else:
-            z_axis = np.deg2rad(90)
-    else:
-        z_axis = 0
-
-    pitch = x_axis
-    yaw = y_axis
-    roll = z_axis
-
-    x_rotation = [[np.cos(yaw), -np.sin(yaw), 0],
-                  [np.sin(yaw), np.cos(yaw), 0],
-                  [0, 0, 1]]
-    y_rotation = [[np.cos(pitch), 0, np.sin(pitch)],
-                  [0, 1, 0],
-                  [-np.sin(pitch), 0, np.cos(pitch)]]
-    z_rotation = [[1, 0, 0],
-                  [0, np.cos(roll), -np.sin(roll)],
-                  [0, np.sin(roll), np.cos(roll)]]
-    r_total = np.matmul(np.matmul(x_rotation, y_rotation), z_rotation)
-
-    translated_input = input - origin
-    output = np.matmul(r_total, translated_input)
-    return output + origin
 
 class TreeProcess(Process):
 
@@ -80,7 +35,7 @@ class TreeProcess(Process):
 
     def grow_tree(self):
         i = 0
-        while i < 100:
+        while i < 20:
             self.tree.grow()
             i += 1
 
@@ -151,7 +106,7 @@ class TreeProcess(Process):
             return False
 
     def save(self):
-        DIR = os.getcwd() + '\\SpaceColonizationSim3D\\xyz'
+        DIR = os.getcwd() + '\\xyz'
         DIR = DIR.replace('\\', '/')
         amount_of_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
 #        for branch in reversed(self.tree.branches):

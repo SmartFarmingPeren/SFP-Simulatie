@@ -16,7 +16,7 @@ def load_xyz_open3d(name, path):
 
 def points_in_circum(r, origin, n=100):
     x, y, z = origin
-    points = [((np.cos(2*np.pi/n*I)*r+x), y, np.sin(2*np.pi/n*I)*r+z) for I in range(0,n+1)]
+    points = [[(np.cos(2*np.pi/n*I)*r+x), y, np.sin(2*np.pi/n*I)*r+z] for I in range(0,n+1)]
 
     return points
 
@@ -25,47 +25,60 @@ def rotate_around_point(input, origin, direction):
     x_axis, y_axis, z_axis = (0, 0, 0)
 
     if direction[0] != 0:
-        if direction[1] == 0:
-            x_axis = np.deg2rad(90)
-        else:
-            x_axis = np.tan(direction[1] / np.sqrt(direction[0] ** 2 + direction[1] ** 2))
+        # if direction[1] != 0:
+            x_axis = np.tan(direction[0] / np.sqrt(direction[0] ** 2 + direction[1] ** 2))
+        # else:
+        #     x_axis = np.deg2rad(90)
     else:
         x_axis = 0
 
-    y_axis = 0
+    # if direction[0] != 0:
+    #     if direction[2] != 0:
+    #         y_axis = np.tan(direction[2] / np.sqrt(direction[0] ** 2 + direction[2] ** 2))
+    #     else:
+    #         y_axis = np.deg2rad(90)
+    # else:
+        y_axis = 0
 
     if direction[2] != 0:
-        if direction[1] == 0:
-            z_axis = np.deg2rad(90)
-        else:
-            z_axis = np.tan(direction[1] / np.sqrt(direction[2] ** 2 + direction[1] ** 2))
+        # if direction[1] != 0:
+            z_axis = np.tan(direction[2] / np.sqrt(direction[2] ** 2 + direction[1] ** 2))
+        # else:
+        #     z_axis = np.deg2rad(90)
     else:
         z_axis = 0
 
-    pitch = x_axis
-    yaw = y_axis
-    roll = z_axis
+    print(str(np.rad2deg(x_axis)) + ", " + str(np.rad2deg(y_axis)) + ", " + str(np.rad2deg(z_axis)))
 
-    x_rotation = [[np.cos(pitch), -np.sin(pitch), 0],
-                  [np.sin(pitch), np.cos(pitch), 0],
+    roll = x_axis
+    yaw = y_axis
+    pitch = z_axis
+
+    x_rotation = [[np.cos(roll), -np.sin(roll), 0],
+                  [np.sin(roll), np.cos(roll), 0],
                   [0, 0, 1]]
     y_rotation = [[np.cos(yaw), 0, np.sin(yaw)],
                   [0, 1, 0],
                   [-np.sin(yaw), 0, np.cos(yaw)]]
     z_rotation = [[1, 0, 0],
-                  [0, np.cos(roll), -np.sin(roll)],
-                  [0, np.sin(roll), np.cos(roll)]]
-    r_total = np.matmul(np.matmul(x_rotation, y_rotation), z_rotation)
+                  [0, np.cos(pitch), -np.sin(pitch)],
+                  [0, np.sin(pitch), np.cos(pitch)]]
+    r_total = np.matmul(np.matmul(x_rotation, z_rotation), y_rotation)
 
-    output = np.matmul(r_total, input)
-    return output
+    print(x_rotation)
+    print(y_rotation)
+    print(z_rotation)
+    print(r_total)
+    translated_input = [input[0] - origin[0], input[1] - origin[1], input[2] - origin[2]]
+    output = np.matmul(r_total, translated_input)
+    return output + origin
 
 def main():
     origin = [0, 0, 0]
     points = points_in_circum(40, origin)
     rotated_points = []
     for point in points:
-        rotated_points.append(rotate_around_point(point, origin, [0, 1, 1]))
+        rotated_points.append(rotate_around_point(point, origin, [0.5, 0, .5]))
 
     DIR = os.getcwd() + '\\xyz/'
     DIR = DIR.replace('\\', '/')
