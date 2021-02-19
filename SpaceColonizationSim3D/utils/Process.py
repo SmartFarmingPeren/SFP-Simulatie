@@ -9,11 +9,13 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.widgets import Button
 pi = math.pi
 
+
 #https://stackoverflow.com/questions/8487893/generate-all-the-points-on-the-circumference-of-a-circle
 def PointsInCircum(r, x, y, z, rotation, n=100):
     points = [((math.cos(2*pi/n*I)*r+x), y, math.sin(2*pi/n*I)*r+z) for I in range(0,n+1)]
 
     return points
+
 
 class treeProcess(Process):
 
