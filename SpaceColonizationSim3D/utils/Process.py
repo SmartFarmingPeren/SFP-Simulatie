@@ -25,19 +25,25 @@ def rotate_around_point(input, origin, direction):
 
     if direction[0] != 0:
         if direction[1] == 0:
-            x_axis = np.deg2rad(90)
-        else:
             x_axis = np.tan(direction[1] / np.sqrt(direction[0] ** 2 + direction[1] ** 2))
+        else:
+            x_axis = np.deg2rad(90)
     else:
         x_axis = 0
 
-    y_axis = 0
+    if direction[0] != 0:
+        if direction[2] != 0:
+            y_axis = np.tan(direction[2] / np.sqrt(direction[0] ** 2 + direction[2] ** 2))
+        else:
+            y_axis = np.deg2rad(90)
+    else:
+        y_axis = 0
 
     if direction[2] != 0:
         if direction[1] == 0:
-            z_axis = np.deg2rad(90)
-        else:
             z_axis = np.tan(direction[1] / np.sqrt(direction[2] ** 2 + direction[1] ** 2))
+        else:
+            z_axis = np.deg2rad(90)
     else:
         z_axis = 0
 
@@ -45,19 +51,20 @@ def rotate_around_point(input, origin, direction):
     yaw = y_axis
     roll = z_axis
 
-    x_rotation = [[np.cos(pitch), -np.sin(pitch), 0],
-                  [np.sin(pitch), np.cos(pitch), 0],
+    x_rotation = [[np.cos(yaw), -np.sin(yaw), 0],
+                  [np.sin(yaw), np.cos(yaw), 0],
                   [0, 0, 1]]
-    y_rotation = [[np.cos(yaw), 0, np.sin(yaw)],
+    y_rotation = [[np.cos(pitch), 0, np.sin(pitch)],
                   [0, 1, 0],
-                  [-np.sin(yaw), 0, np.cos(yaw)]]
+                  [-np.sin(pitch), 0, np.cos(pitch)]]
     z_rotation = [[1, 0, 0],
                   [0, np.cos(roll), -np.sin(roll)],
                   [0, np.sin(roll), np.cos(roll)]]
     r_total = np.matmul(np.matmul(x_rotation, y_rotation), z_rotation)
 
-    output = np.matmul(r_total, input)
-    return output
+    translated_input = input - origin
+    output = np.matmul(r_total, translated_input)
+    return output + origin
 
 class TreeProcess(Process):
 
