@@ -1,11 +1,9 @@
-from gui.GUI import PlotApp
-import matplotlib.pyplot as plt
-import datetime
+from ProcessManager import Manager
 
 
 def main():
-    Plot = PlotApp()
-    Plot.show()
+    Man = Manager()
+    Man.grow_tree()
 
 
 if __name__ == '__main__':
