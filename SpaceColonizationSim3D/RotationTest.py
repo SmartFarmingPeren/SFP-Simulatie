@@ -65,8 +65,7 @@ def rotate_around_point(input, origin, direction):
 
     return output + origin
 
-
-# werkt maar z coördinaten worden niet veranderd.
+#The z coördinate isn't implemented yet.
 def rotateZ3D(theta, input):
     sinTheta = np.sin(np.deg2rad(theta))
     cosTheta = np.cos(np.deg2rad(theta))
@@ -75,8 +74,7 @@ def rotateZ3D(theta, input):
     output[1] = input[1] * cosTheta - input[0] * sinTheta
     return output
 
-
-# werkt maar z coördinaten worden niet veranderd.
+#The z coördinate isn't implemented yet.
 def rotateX3D(theta, input):
     sinTheta = np.sin(np.deg2rad(theta))
     cosTheta = np.cos(np.deg2rad(theta))
@@ -85,8 +83,7 @@ def rotateX3D(theta, input):
     output[1] = input[2] * cosTheta - input[1] * sinTheta
     return output
 
-
-# werkt maar z coördinaten worden niet veranderd.
+#The z coördinate isn't implemented yet.
 def rotateY3D(theta, input):
     sinTheta = np.sin(np.deg2rad(theta))
     cosTheta = np.cos(np.deg2rad(theta))
@@ -95,15 +92,18 @@ def rotateY3D(theta, input):
     output[1] = input[2] * cosTheta - input[0] * sinTheta
     return output
 
-
+#create a rotated circle in a 3d space
 def main():
     origin = [0, 0, 0]
+    #create circle
     points = points_in_circum(40, origin)
+
+    #rotate circle
     rotated_points = []
     for point in points:
-        # rotated_points.append(rotate_around_point(point, origin, [1, 0, 0]))
-        rotated_points.append(rotateZ3D(90, point))
+        rotated_points.append(rotate_around_point(point, origin, [1, 0, 0]))
 
+    #save circle
     DIR = os.getcwd() + '\\xyz/'
     DIR = DIR.replace('\\', '/')
     amount_of_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
@@ -115,6 +115,7 @@ def main():
             f.write(pointz)
         f.close()
 
+    #show circle
     model = o3d.io.read_point_cloud(DIR + "test_rotation.xyz")
     print(model)
     o3d.visualization.draw_geometries([model], width=1080, height=720)
