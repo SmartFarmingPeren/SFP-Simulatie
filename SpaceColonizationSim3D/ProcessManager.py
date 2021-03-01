@@ -1,20 +1,17 @@
-import os
-import os.path
-import datetime
 from utils.Process import TreeProcess
-from parts.Tree import Tree
 
 PointSize = 2 / 2
 
 
-class Manager():
-    def __init__(self, w_width=800, w_height=800):
-        self.tree = Tree()
-        self.generation = 0
+# Creates tree processes
+class Manager:
+    # generation is how many trees you want
+    def __init__(self, generation=0):
+        self.generation = generation
 
-    def grow_tree(self, event):
+    def grow_tree(self):
         i = 0
-        while i < 1:
-            tmp = TreeProcess(self.ax)
-            tmp.start()
+        while i < self.generation:
+            process = TreeProcess()
+            process.start()
             i += 1

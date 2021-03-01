@@ -2,8 +2,8 @@ from ProcessManager import Manager
 
 
 def main():
-    Man = Manager()
-    Man.grow_tree()
+    manager = Manager(1)
+    manager.grow_tree()
 
 
 if __name__ == '__main__':
