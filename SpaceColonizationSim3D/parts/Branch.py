@@ -13,7 +13,7 @@ class Branch:
         next_dir = self.direction * self.length
         next_pos = self.pos + next_dir
         self.last = False
-        self.add_thiccness()
+        self.add_thickness()
         self.child = Branch(pos=next_pos, direction=self.direction, last=True, parent=self)
         return self.child
 
@@ -21,7 +21,7 @@ class Branch:
         self.direction = self.orig_direction
         self.count = 0
     
-    def add_thiccness(self):
+    def add_thickness(self):
         self.thickness += 1
         if self.parent is not None:
-            self.parent.add_thiccness()
+            self.parent.add_thickness()

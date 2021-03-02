@@ -2,7 +2,7 @@ from ProcessManager import Manager
 
 
 def main():
-    manager = Manager(1)
+    manager = Manager(40)
     manager.grow_tree()
 
 
