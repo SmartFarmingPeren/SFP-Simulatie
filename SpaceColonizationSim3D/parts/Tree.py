@@ -2,7 +2,7 @@ import numpy as np
 import math
 from parts.Leaf import Leaf
 from parts.Branch import Branch
-from parts.yearOne.YearOneLeaves import YearOneLeaf
+from parts.yearOne.YearOneLeaf import YearOneLeaf
 
 amount_of_leaves = 200
 min_dist = 400  # 20 ** 2, minimal distance is squared to remove a slow square root
@@ -71,20 +71,14 @@ class Tree:
 
     def reshuffle_leaves(self):
         self.leaves.clear()
-        i = 0
-        while i < amount_of_leaves:
+        for _ in range(amount_of_leaves):
             self.leaves.append(Leaf())
-            # Idk ask 20/21
-            # self.trimleaves()
-            i += 1
 
     # not yet implemented, first year leaves are meant to be the 4 guiding branches
     def reshuffle_first_year_leaves(self):
         self.leaves.clear()
-        i = 0
-        while i < amount_of_leaves:
+        for _ in range(amount_of_leaves):
             self.leaves.append(YearOneLeaf())
-            i += 1
 
     # inits a new tree
     def new_tree(self):

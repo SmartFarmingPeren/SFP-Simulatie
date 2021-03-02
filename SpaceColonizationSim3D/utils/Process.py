@@ -77,7 +77,6 @@ class TreeProcess(Process):
     def __init__(self):
         super(TreeProcess, self).__init__()
         self.tree = Tree()
-        self.generation = 0
         self.thick_tree = []
 
     def run(self):
