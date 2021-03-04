@@ -1,0 +1,7 @@
+- fix error maak directory aan
+
+- fix rotatie branch cirkels
+
+- refactor branch system (branch moet geen punt zijn maar een verzameling van punten
+
+- leeftijds-classificatie
