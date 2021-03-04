@@ -25,7 +25,7 @@ def points_in_circum(r, origin, direction, n=100):
 # Rotate a point(input) around another point(origin).
 # Does not yet work with propositions,
 # given a direction (1, 0, 0.5) for example the code should give a z_rotation of less than 90 but this is not the case.
-def rotate_around_point(input, origin, direction):
+def rotate_around_point(input, origin, direction, x, y, z):
     x_axis, y_axis, z_axis = calculate_axes(direction)
 
     # This is from: https://en.wikipedia.org/wiki/Rotation_matrix

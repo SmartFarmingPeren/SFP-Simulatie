@@ -24,8 +24,8 @@ def points_in_circum(r, origin, n=100):
 
 # Rotate a point(input) around another point(origin). Does not yet work with propositions, given a direction (1, 0,
 # 0.5) for example the code should give a z_rotation of less than 90 but this is not the case.
-def rotate_around_point(input, origin, direction):
-    x_axis, y_axis, z_axis = calculate_axes(direction)
+def rotate_around_point(input, origin, direction, x_axis, y_axis, z_axis):
+    # x_axis, y_axis, z_axis = calculate_axes(direction)
 
     roll = x_axis
     yaw = y_axis
@@ -114,7 +114,7 @@ def main():
     # rotate circle
     rotated_points = []
     for point in points:
-        rotated_points.append(rotate_around_point(point, origin, [1, 0, 0]))
+        rotated_points.append(rotate_around_point(point, origin, [0, 0, 0], np.deg2rad(102), np.deg2rad(60), np.deg2rad(20)))
 
     # save circle
     DIR = os.getcwd() + '\\xyz/'
