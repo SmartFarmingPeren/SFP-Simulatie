@@ -95,7 +95,7 @@ class TreeProcess(Process):
     def add_thickness(self):
         branches_with_thickness = []
         for branch in self.tree.branches:
-            circle = points_in_circum(math.sqrt(branch.thiccness / 10 + 1), branch.pos, branch.direction)
+            circle = points_in_circum(math.sqrt(branch.thickness / 10 + 1), branch.pos, branch.direction)
             for point in circle:
                 branches_with_thickness.append(point)
         return branches_with_thickness
