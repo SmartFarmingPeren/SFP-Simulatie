@@ -9,13 +9,13 @@ import numpy as np
 import RotationTest
 from parts.Tree import Tree
 
-pi = math.pi
+PI = math.pi
 
 
 # https://stackoverflow.com/questions/8487893/generate-all-the-points-on-the-circumference-of-a-circle
 def points_in_circum(r, origin, direction, n=100):
     x, y, z = origin
-    points = [((math.cos(2 * pi / n * I) * r + x), y, math.sin(2 * pi / n * I) * r + z) for I in range(0, n + 1)]
+    points = [((math.cos(2 * PI / n * I) * r + x), y, math.sin(2 * PI / n * I) * r + z) for I in range(0, n + 1)]
     rotated_points = []
     for point in points:
         rotated_points.append(RotationTest.rotate_around_point(point, origin, direction))
@@ -81,13 +81,14 @@ class TreeProcess(Process):
 
     def run(self):
         self.grow_tree()
-        self.thick_tree = self.add_thickness()
+        # self.thick_tree = self.add_thickness()
         self.save()
+        self.save_leaves()
 
     def grow_tree(self):
         i = 0
         # change tree_size to your preference ideal is 100 and 150
-        tree_size = 150
+        tree_size = 10
         while i < tree_size:
             self.tree.grow()
             i += 1
@@ -106,16 +107,28 @@ class TreeProcess(Process):
         DIR = DIR.replace('\\', '/')
         amount_of_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
         # save bare bone version of tree without _THICKNESS_
-        with open(DIR + '/gen' + str(amount_of_files) + '_' + str(
-                datetime.date.today().strftime("%d_%m")) + "_centroid.xyz", 'w') as f:
-            for branch in self.tree.branches:
-                points = str(branch.pos[0]) + ' ' + str(branch.pos[1]) + ' ' + str(branch.pos[2]) + '\n'
-                f.write(points)
-            f.close()
-        # save _THICKNESS_ version of tree
-        with open(DIR + '/gen' + str(amount_of_files) + '_' + str(
-                datetime.date.today().strftime("%d_%m")) + "_centroid_thickness.xyz", 'w') as f:
-            for branch in self.thick_tree:
-                points = str(branch[0]) + ' ' + str(branch[1]) + ' ' + str(branch[2]) + '\n'
-                f.write(points)
-            f.close()
+        self.save_points_to_xyz(self.tree.save(), DIR + '/gen' + str(amount_of_files + 1) + '_' + str(
+                datetime.date.today().strftime("%d_%m")) + "_centroid.xyz")
+
+        # # save _THICKNESS_ version of tree
+        # with open(DIR + '/gen' + str(amount_of_files) + '_' + str(
+        #         datetime.date.today().strftime("%d_%m")) + "_centroid_thickness.xyz", 'w') as f:
+        #     for branch in self.thick_tree:
+        #         points = str(branch[0]) + ' ' + str(branch[1]) + ' ' + str(branch[2]) + '\n'
+        #         f.write(points)
+        #     f.close()
+
+    def save_leaves(self):
+        DIR = os.getcwd() + '\\xyz'
+        DIR = DIR.replace('\\', '/')
+        amount_of_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+        # save bare bone version of tree without _THICKNESS_
+        self.save_points_to_xyz(self.tree.save_leaves(), DIR + '/leaves_' + str(
+            datetime.date.today().strftime("%d_%m")) + ".xyz")
+
+    @staticmethod
+    def save_points_to_xyz(points, location):
+        f = open(location, "a")
+        for point in points:
+            f.write("%f %f %f\n" % (point[0], point[1], point[2]))
+        f.close()
