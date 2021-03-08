@@ -7,11 +7,11 @@ class Section:
     def __init__(self, pos: np.array, direction: np.array):
         self.pos: np.array = pos
         self.direction: np.array = direction
-        self.thickness = 1
-        self.can_grow = False
+        self.thickness: int = 1
+        self.can_grow: bool = False
 
     def next(self, next_direction: np.array):
-        new_dir = self.direction + next_direction
-        translation = new_dir * SECTION_LENGTH
+        # new_dir = self.direction + next_direction
+        translation = self.direction * SECTION_LENGTH
         next_pos = self.pos + translation
-        return Section(pos=next_pos, direction=new_dir)
+        return Section(pos=next_pos, direction=self.direction)

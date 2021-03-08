@@ -18,10 +18,8 @@ class Branch:
         self.sections.append(Section(direction, position))
 
     def grow(self):
-        for section in self.sections:
+        for section in reversed(self.sections):
             if section.can_grow:
-                factor = np.linalg.norm(self.next_direction)
-                self.next_direction = self.next_direction / factor
                 new_section = self.next_section(self.next_direction)
                 self.sections.append(new_section)
                 section.can_grow = False

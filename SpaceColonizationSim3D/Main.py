@@ -1,8 +1,8 @@
-from ProcessManager import Manager
+from ProcessManager import ProcessManager
 
 
 def main():
-    manager = Manager(1)
+    manager = ProcessManager(1)
     manager.grow_tree()
 
 

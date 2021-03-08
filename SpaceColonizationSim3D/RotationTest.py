@@ -105,6 +105,13 @@ def rotateY3D(theta, input):
     return output
 
 
+def view_models(model_names):
+    models = []
+    for name in model_names:
+        models.append(o3d.io.read_point_cloud(name))
+    o3d.visualization.draw_geometries(models, width=1080, height=720, mesh_show_back_face=False)
+
+
 # create a rotated circle in a 3d space
 def main():
     origin = [0, 0, 0]
@@ -119,19 +126,21 @@ def main():
     # save circle
     DIR = os.getcwd() + '\\xyz/'
     DIR = DIR.replace('\\', '/')
-    amount_of_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
-    with open(
-            DIR + "test_rotation.xyz",
-            'w') as f:
-        for point in rotated_points:
-            pointz = str(point[0]) + ' ' + str(point[1]) + ' ' + str(point[2]) + '\n'
-            f.write(pointz)
-        f.close()
+    # amount_of_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+    # with open(
+    #         DIR + "test_rotation.xyz",
+    #         'w') as f:
+    #     for point in rotated_points:
+    #         pointz = str(point[0]) + ' ' + str(point[1]) + ' ' + str(point[2]) + '\n'
+    #         f.write(pointz)
+    #     f.close()
 
     # show circle
-    model = o3d.io.read_point_cloud(DIR + "test_rotation.xyz")
-    print(model)
-    o3d.visualization.draw_geometries([model], width=1080, height=720)
+    branches = o3d.io.read_point_cloud(DIR + "EXgen12_04_03_centroid_thickness.xyz")
+    leaves = o3d.io.read_point_cloud(DIR + 'leaves_05_03.xyz')
+    leaves.paint_uniform_color((.1, .8, .1))
+    print(branches)
+    o3d.visualization.draw_geometries([branches], width=1080, height=720, mesh_show_back_face=False)
 
 
 if __name__ == '__main__':

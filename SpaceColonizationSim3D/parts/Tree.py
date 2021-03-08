@@ -6,9 +6,9 @@ from parts.Branch import Branch
 from parts.Section import Section
 from parts.yearOne.YearOneLeaf import YearOneLeaf
 
-amount_of_leaves = 200
-min_dist = 400  # 20 ** 2, minimal distance is squared to remove a slow square root
-max_dist = 2500  # 50 ** 2, maximal distance is squared to remove a slow square root
+AMOUNT_OF_LEAVES: int = 200
+MIN_DIST: int = 400  # 20 ** 2, minimal distance is squared to remove a slow square root
+MAX_DIST: int = 2500  # 50 ** 2, maximal distance is squared to remove a slow square root
 
 
 # Made by minor 20/21 without comments so understanding is a bit difficult.
@@ -43,11 +43,12 @@ class Tree:
                 # Euclidean distance is normally calculated by the square root of all elements summed and multiplied
                 # to the power of 2 (Dist). Multiplying the Min_ and Max_distance beforehand to the power of 2,
                 # removes the need for a square root, thus speeding up the program.
-                if max_dist > distance > min_dist:
+                if MAX_DIST > distance > MIN_DIST:
                     found = True
 
             if not found:
                 self.root.add_section()
+            print(found)
 
     def grow(self):
         for leaf in self.leaves:
@@ -55,25 +56,29 @@ class Tree:
             closest_record = 1000
 
             # pint all sections that come directly from root
-            print(len(self.root.sections))
+            # print(len(self.root.sections))
 
             for section in self.root.sections:
                 distance = calculate_distance(leaf.pos, section.pos)
-                if distance < min_dist:
+                # if a section reached a leaf, break
+                if distance < MIN_DIST:
                     leaf.reached = True
                     closest_section = None
                     break
+                # elif
                 elif closest_section is None or distance < closest_record:
                     closest_section = section
                     closest_record = distance
-                elif distance > max_dist:
+                elif distance > MAX_DIST:
                     pass
 
             # sets the direction for the next section in the growable branch
             if closest_section is not None:
                 new_dir = leaf.pos - closest_section.pos
+                factor = np.linalg.norm(new_dir)
+                new_dir = new_dir / factor
+                closest_section.direction = closest_section.direction + new_dir
                 closest_section.can_grow = True
-                self.root.next_direction = self.root.next_direction + new_dir
 
         # removes any leaves that are 'reached'
         for leaf in reversed(self.leaves):
@@ -85,13 +90,13 @@ class Tree:
 
     def reshuffle_leaves(self):
         self.leaves.clear()
-        for _ in range(amount_of_leaves):
+        for _ in range(AMOUNT_OF_LEAVES):
             self.leaves.append(Leaf())
 
     # not yet implemented, first year leaves are meant to be the 4 guiding branches
     def reshuffle_first_year_leaves(self):
         self.leaves.clear()
-        for _ in range(amount_of_leaves):
+        for _ in range(AMOUNT_OF_LEAVES):
             self.leaves.append(YearOneLeaf())
 
     def trim_leaves(self):
