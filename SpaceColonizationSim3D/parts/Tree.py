@@ -5,6 +5,8 @@ from parts.Leaf import Leaf
 from parts.Branch import Branch
 from parts.Section import Section
 from parts.yearOne.YearOneLeaf import YearOneLeaf
+from utils import TreeProcess
+from utils.Viewer import Viewer
 
 AMOUNT_OF_LEAVES: int = 200
 MIN_DIST: int = 400  # 20 ** 2, minimal distance is squared to remove a slow square root
@@ -26,6 +28,7 @@ class Tree:
         self.reshuffle_leaves()
         self.root = None
         self.new_tree()
+        # self.viewer = Viewer(self)
 
     # inits a new tree
     def new_tree(self):
@@ -34,7 +37,9 @@ class Tree:
 
         pos = np.array([250.0, 0.0, 250.0])
         direction = np.array([0.0, 5.0, 0.0])
-        self.root = Branch(pos, direction)
+        self.root = Branch()
+        self.root.sections.append(Section(pos, direction, None))
+        self.branches.append(self.root)
 
         found = False
         while not found:
@@ -55,9 +60,6 @@ class Tree:
             closest_section = None
             closest_record = 1000
 
-            # pint all sections that come directly from root
-            # print(len(self.root.sections))
-
             for section in self.root.sections:
                 distance = calculate_distance(leaf.pos, section.pos)
                 # if a section reached a leaf, break
@@ -65,10 +67,11 @@ class Tree:
                     leaf.reached = True
                     closest_section = None
                     break
-                # elif
+                # elif distance is smaller compared to thsee previously closest ction, make this the closest
                 elif closest_section is None or distance < closest_record:
                     closest_section = section
                     closest_record = distance
+                # filter out points that are too far away from the point (kinda pointless)
                 elif distance > MAX_DIST:
                     pass
 
@@ -78,15 +81,25 @@ class Tree:
                 factor = np.linalg.norm(new_dir)
                 new_dir = new_dir / factor
                 closest_section.direction = closest_section.direction + new_dir
-                closest_section.can_grow = True
+                closest_section.count += 1
 
         # removes any leaves that are 'reached'
         for leaf in reversed(self.leaves):
             if leaf.reached:
                 self.leaves.remove(leaf)
 
+        # go through every branch, create a new branch for every growable section that isnt the last section , otherwise just create a new section in the same branch
+        for branch in reversed(self.branches):
+            for section in branch.sections:
+                if section.count > 0:
+                    section.direction = section.direction / section.count
+                    if section.pos is not branch.get_last_pos():
+                        branch.next(section.next())
+                    else:
+                        branch.add_section()
+                section.reset()
         # if a branch was at least the closest to one leaf, grow that branch.
-        self.root.grow()
+        # self.root.grow()
 
     def reshuffle_leaves(self):
         self.leaves.clear()
@@ -107,11 +120,33 @@ class Tree:
                 self.leaves.remove(leaf)
 
     def save(self):
+        points = self.root.get_points_to_save([])
+        print(points)
         return self.root.get_points_to_save([])
-        pass
 
     def save_leaves(self):
         leaves = []
         for leaf in self.leaves:
             leaves.append(leaf.pos)
         return leaves
+
+    # def subdivide(self):
+    #     print("SUBDIVIDING POINTS")
+    #     count = 0
+    #     for branch in self.branches:
+    #         branch.subdivide()
+    #         count += len(branch.sections)
+    #     print("NEW SIZE: %d" % count)
+
+    # def add_thickness(self):
+    #     for branch in self.branches:
+    #         branch.add_thickness()
+    #
+    # def add_thickness_circles(self):
+    #     branches_with_thickness = []
+    #     for branch in self.branches:
+    #         for section in branch.sections:
+    #             circle = TreeProcess.points_in_circum(np.math.sqrt(section.thickness / 10 + 1), section.pos, section.direction)
+    #             for point in circle:
+    #                 branches_with_thickness.append(point)
+    #     return branches_with_thickness

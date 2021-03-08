@@ -24,8 +24,8 @@ def points_in_circum(r, origin, n=100):
 
 # Rotate a point(input) around another point(origin). Does not yet work with propositions, given a direction (1, 0,
 # 0.5) for example the code should give a z_rotation of less than 90 but this is not the case.
-def rotate_around_point(input, origin, direction, x_axis, y_axis, z_axis):
-    # x_axis, y_axis, z_axis = calculate_axes(direction)
+def rotate_around_point(input, origin, direction, x_axis=0, y_axis=0, z_axis=0):
+    x_axis, y_axis, z_axis = calculate_axes(direction)
 
     roll = x_axis
     yaw = y_axis
@@ -136,7 +136,7 @@ def main():
     #     f.close()
 
     # show circle
-    branches = o3d.io.read_point_cloud(DIR + "EXgen12_04_03_centroid_thickness.xyz")
+    branches = o3d.io.read_point_cloud(DIR + "EXgen12_04_03_centroid.xyz")
     leaves = o3d.io.read_point_cloud(DIR + 'leaves_05_03.xyz')
     leaves.paint_uniform_color((.1, .8, .1))
     print(branches)
