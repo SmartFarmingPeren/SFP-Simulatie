@@ -122,13 +122,11 @@ class Tree:
     def save(self):
         points = self.root.get_points_to_save([])
         print(points)
-        return self.root.get_points_to_save([])
+        return points
 
     def save_leaves(self):
-        leaves = []
         for leaf in self.leaves:
-            leaves.append(leaf.pos)
-        return leaves
+            yield leaf.pos
 
     # def subdivide(self):
     #     print("SUBDIVIDING POINTS")

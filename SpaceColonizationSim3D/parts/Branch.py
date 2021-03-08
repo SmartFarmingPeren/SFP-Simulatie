@@ -33,9 +33,8 @@ class Branch:
         for section in self.sections:
             points.append([section.pos[0], section.pos[1], section.pos[2]])
         for child in self.children:
-            child_points = child.get_points_to_save(points)
+            points = child.get_points_to_save(points)
         return points
-
     #
     # def reset(self):
     #     self.direction = self.orig_direction
@@ -61,18 +60,10 @@ class Branch:
             return None
 
     def get_first_pos(self):
-        section = self.get_first_section()
-        if isinstance(section, Section):
-            return section.pos
-        else:
-            return 0.0, 0.0, 0.0
+        return self.get_first_section().pos
 
     def get_last_pos(self):
-        section = self.get_last_section()
-        if isinstance(section, Section):
-            return section.pos
-        else:
-            return 0.0, 0.0, 0.0
+        return self.get_last_section().pos
 
     # def subdivide(self):
     #     for i in range(len(self.sections)):
