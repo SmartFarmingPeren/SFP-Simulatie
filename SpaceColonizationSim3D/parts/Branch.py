@@ -53,11 +53,12 @@ class Branch:
                 for point in child_points:
                     points.append(point)
         return points
+
     #
     # def reset(self):
     #     self.direction = self.orig_direction
     #     self.count = 0
-    
+
     def add_thickness(self):
         self.thickness += 1
         if self.parent is not None:
