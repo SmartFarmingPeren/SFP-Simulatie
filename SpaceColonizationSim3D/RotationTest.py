@@ -112,6 +112,10 @@ def view_models(model_names):
     o3d.visualization.draw_geometries(models, width=1080, height=720, mesh_show_back_face=False)
 
 
+def view_pointclouds(pcds):
+    o3d.visualization.draw_geometries(pcds, width=1080, height=720, mesh_show_back_face=False)
+
+
 # create a rotated circle in a 3d space
 def main():
     origin = [0, 0, 0]

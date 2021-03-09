@@ -1,8 +1,9 @@
 from typing import List
 
 import numpy as np
+import open3d as o3d
 from parts.Leaf import Leaf
-from parts.Branch import Branch
+from parts.Branch import Branch, get_next
 from parts.Section import Section
 from parts.yearOne.YearOneLeaf import YearOneLeaf
 from utils import TreeProcess
@@ -37,7 +38,7 @@ class Tree:
 
         pos = np.array([250.0, 0.0, 250.0])
         direction = np.array([0.0, 5.0, 0.0])
-        self.root = Branch()
+        self.root = Branch(level=1, color=np.array([0.3, 1.0, 0.6]))
         self.root.sections.append(Section(pos, direction, None))
         self.branches.append(self.root)
 
@@ -60,20 +61,21 @@ class Tree:
             closest_section = None
             closest_record = 1000
 
-            for section in self.root.sections:
-                distance = calculate_distance(leaf.pos, section.pos)
-                # if a section reached a leaf, break
-                if distance < MIN_DIST:
-                    leaf.reached = True
-                    closest_section = None
-                    break
-                # elif distance is smaller compared to thsee previously closest ction, make this the closest
-                elif closest_section is None or distance < closest_record:
-                    closest_section = section
-                    closest_record = distance
-                # filter out points that are too far away from the point (kinda pointless)
-                elif distance > MAX_DIST:
-                    pass
+            for branch in get_next(self.root):
+                for section in branch.sections:
+                    distance = calculate_distance(leaf.pos, section.pos)
+                    # if a section reached a leaf, break
+                    if distance < MIN_DIST:
+                        leaf.reached = True
+                        closest_section = None
+                        break
+                    # elif distance is smaller compared to thsee previously closest ction, make this the closest
+                    elif closest_section is None or distance < closest_record:
+                        closest_section = section
+                        closest_record = distance
+                    # filter out points that are too far away from the point (kinda pointless)
+                    elif distance > MAX_DIST:
+                        pass
 
             # sets the direction for the next section in the growable branch
             if closest_section is not None:
@@ -88,8 +90,9 @@ class Tree:
             if leaf.reached:
                 self.leaves.remove(leaf)
 
+        # TODO add recursive search through branches using yield?
         # go through every branch, create a new branch for every growable section that isnt the last section , otherwise just create a new section in the same branch
-        for branch in reversed(self.branches):
+        for branch in get_next(self.root):
             for section in branch.sections:
                 if section.count > 0:
                     section.direction = section.direction / section.count
@@ -120,13 +123,32 @@ class Tree:
                 self.leaves.remove(leaf)
 
     def save(self):
-        points = self.root.get_points_to_save([])
-        print(points)
-        return points
+        return [self.to_pcd(), self.leaves_to_pcd()]
+
+    # method
+    def to_pcd(self):
+        points = self.get_all_points()
+        colors = []
+        for branch in get_next(self.root):
+            for _ in branch.sections:
+                colors.append(branch.color)
+        pcd = o3d.geometry.PointCloud(o3d.utility.Vector3dVector(points))
+        pcd.colors = o3d.utility.Vector3dVector(np.asarray(colors))
+        return pcd
 
     def save_leaves(self):
         for leaf in self.leaves:
             yield leaf.pos
+
+    def leaves_to_pcd(self):
+        points = list(self.save_leaves())
+        pcd = o3d.geometry.PointCloud(o3d.utility.Vector3dVector(points))
+        return pcd
+
+    def get_all_points(self):
+        for branch in get_next(self.root):
+            for section in branch.sections:
+                yield section.pos
 
     # def subdivide(self):
     #     print("SUBDIVIDING POINTS")

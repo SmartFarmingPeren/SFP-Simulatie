@@ -7,34 +7,25 @@ SECTION_LENGTH = 2
 
 
 class Branch:
-    def __init__(self, color = (0.0, 0.0, 0.0), parent: 'Branch' = None):
+    def __init__(self, level, color, parent: 'Branch' = None):
         # First section is at the start of the branch, last section is at the end
         self.sections: List[Section] = []
         self.children: List[Branch] = []
         self.parent: Branch = parent
-        self.thickness: int = 1
         self.color: np.array = color
-        self.should_grow: bool = False
-        self.next_direction: np.array = np.array([0.0, 0.0, 0.0])
+        self.level = level
 
     # this method returns a new branch and makes it a child
     def next(self, section):
-        new_branch = Branch(color=self.color, parent=self)
+        new_color = self.color / [self.level + 1, self.level + 0.5, self.level + .25]
+        new_branch = Branch(level=self.level + 1, color=new_color, parent=self)
         new_branch.sections.append(section)
         self.children.append(new_branch)
         return new_branch
 
     def add_section(self):
-        self.sections.append(self.get_last_section().next())
+        self.sections.append(self.get_last_section().next(self.get_first_section()))
 
-    # recursive loop through all branches and sections to get all points
-    def get_points_to_save(self, points):
-        print("[P:")
-        for section in self.sections:
-            points.append([section.pos[0], section.pos[1], section.pos[2]])
-        for child in self.children:
-            points = child.get_points_to_save(points)
-        return points
     #
     # def reset(self):
     #     self.direction = self.orig_direction
@@ -73,3 +64,9 @@ class Branch:
     #             other_section = self.sections[other_i]
     #             extra = Section(section.pos - other_section.pos, section.direction)
     #             self.sections.insert(i, extra)
+
+
+def get_next(node):
+    yield node
+    for child in node.children:
+        yield from get_next(child)

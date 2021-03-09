@@ -91,27 +91,27 @@ class TreeProcess(Process):
 
     def grow_tree(self):
         # change tree_size to your preference. ideal size is between 100 and 150
-        tree_size = 100
+        tree_size = 150
         for i in range(tree_size):
-            print(i)
+            print("%3.2f%% complete.." % (i * 100 / 150))
             self.tree.grow()
 
     # Save point cloud to xyz format
     def save(self):
-        DIR = os.getcwd() + '\\xyz'
-        DIR = DIR.replace('\\', '/')
-        amount_of_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
-        # save bare bone version of tree without _THICKNESS_
-        name = DIR + '/gen' + str(amount_of_files + 1) + '_' + str(
-            datetime.date.today().strftime("%d_%m")) + "_centroid.xyz"
-        self.save_points_to_xyz(self.tree.save(), name)
+        # DIR = os.getcwd() + '\\xyz'
+        # DIR = DIR.replace('\\', '/')
+        # amount_of_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+        # # save bare bone version of tree without _THICKNESS_
+        # name = DIR + '/gen' + str(amount_of_files + 1) + '_' + str(
+        #     datetime.date.today().strftime("%d_%m")) + "_centroid.xyz"
+        # self.save_points_to_xyz(self.tree.save(), name)
+        #
+        # # save _THICKNESS_ version of tree
+        # thick_name = DIR + '/gen' + str(amount_of_files) + '_' + str(
+        #     datetime.date.today().strftime("%d_%m")) + "_centroid_thickness.xyz"
+        # self.save_points_to_xyz(self.thick_tree, thick_name)
 
-        # save _THICKNESS_ version of tree
-        thick_name = DIR + '/gen' + str(amount_of_files) + '_' + str(
-            datetime.date.today().strftime("%d_%m")) + "_centroid_thickness.xyz"
-        self.save_points_to_xyz(self.thick_tree, thick_name)
-
-        RotationTest.view_models([name, self.save_leaves()])
+        RotationTest.view_pointclouds(self.tree.save())
 
     def save_leaves(self):
         DIR = os.getcwd() + '\\xyz'

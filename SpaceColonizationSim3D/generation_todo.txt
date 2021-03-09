@@ -2,6 +2,8 @@
 
 - fix rotatie branch cirkels
 
-- refactor branch system (branch moet geen punt zijn maar een verzameling van punten
+- fix messy code
+
+- save methode voor boom die takken hierarchie behoud
 
 - leeftijds-classificatie
