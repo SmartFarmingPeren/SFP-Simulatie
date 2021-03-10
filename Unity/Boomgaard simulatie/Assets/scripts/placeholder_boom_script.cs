@@ -8,6 +8,7 @@ public class placeholder_boom_script : MonoBehaviour
     Vector3 ofset = Vector3.zero;
 
     private Object[] trees;
+    GameObject treeobject;
 
     // Start is called before the first frame update
     void Start()
@@ -17,10 +18,11 @@ public class placeholder_boom_script : MonoBehaviour
 
         // load all the tree objects into trees and pick one to render
         trees = Resources.LoadAll(path:"treefolder");
+
         int treeslen = trees.Length/3;
         int treepick = Random.Range(1, treeslen + 1) - 1;
         treepick *= 3;
-        GameObject treeobject = (GameObject)Instantiate(trees[treepick]);
+        treeobject = (GameObject)Instantiate(trees[treepick]);
 
         // place the tree in the correct postion
         treeobject.transform.parent = this.transform.parent;
@@ -33,6 +35,6 @@ public class placeholder_boom_script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
