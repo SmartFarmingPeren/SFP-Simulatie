@@ -8,4 +8,6 @@
 
 - leeftijds-classificatie
 
-- The trees are to big 460 meter
+- The trees are too big 460 meter
+
+- split output files naar 2 folders (thick en skeleton)
