@@ -24,7 +24,7 @@ class Branch:
         return new_branch
 
     def add_section(self):
-        self.sections.append(self.get_last_section().next(self.get_first_section()))
+        self.sections.append(self.get_last_section().next())
 
     #
     # def reset(self):

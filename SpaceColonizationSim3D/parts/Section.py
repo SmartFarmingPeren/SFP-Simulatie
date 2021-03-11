@@ -12,12 +12,18 @@ class Section:
         self.count: int = 0
         self.parent = parent
 
-    def next(self, parent=None):
+    def next(self):
         # new_dir = self.direction + next_direction
         next_dir = self.direction * SECTION_LENGTH
         next_pos = self.pos + next_dir
-        return Section(pos=next_pos, direction=self.direction, parent=parent, thickness=self.thickness + 1)
+        self.add_thickness()
+        return Section(pos=next_pos, direction=self.direction, parent=self)
 
     def reset(self):
         self.direction = self.orig_dir
         self.count = 0
+
+    def add_thickness(self):
+        self.thickness += 1
+        if self.parent is not None:
+            self.parent.add_thickness()

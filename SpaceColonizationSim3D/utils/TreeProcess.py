@@ -2,12 +2,14 @@ import os
 import os.path
 import datetime
 import math
+import open3d as o3d
 from multiprocessing import Process
 
 import numpy as np
 
 import RotationTest
 from parts.Tree import Tree
+from parts.Branch import get_next
 
 PI = math.pi
 
@@ -71,36 +73,13 @@ def calculate_axes(direction):
 
     return x_axis, y_axis, z_axis
 
-def create_sphere(radius, origin):
-    resolution = radius * 1500
-    points = []
-    alpha = 4.0 * np.pi * radius * radius / resolution
-    d = np.sqrt(alpha)
-    m_nu = int(np.round(np.pi / d))
-    d_nu = np.pi / m_nu
-    d_phi = alpha / d_nu
-    count = 0
-    for m in range(0, m_nu):
-        nu = np.pi * (m + 0.5) / m_nu
-        m_phi = int(np.round(2 * np.pi * np.sin(nu) / d_phi))
-        for resolution in range(0, m_phi):
-            phi = 2 * np.pi * resolution / m_phi
-            xp = radius * np.sin(nu) * np.cos(phi)
-            yp = radius * np.sin(nu) * np.sin(phi)
-            zp = radius * np.cos(nu)
-            points.append([xp + origin[0], yp + origin[1], zp + origin[2]])
-            count += 1
-    return points
-
 
 class TreeProcess(Process):
 
     def __init__(self):
         super(TreeProcess, self).__init__()
         self.tree = Tree()
-        self.thick_tree = []
         self.grow_tree()
-        # self.tree.subdivide()
         # self.tree.add_thickness_circles()
         self.save()
 
@@ -114,33 +93,24 @@ class TreeProcess(Process):
         # change tree_size to your preference. ideal size is between 100 and 150
         tree_size = 150
         for i in range(tree_size):
-            print("%3.2f%% complete.." % (i * 100 / 150))
+            print("%3.2f%% complete.." % (i * 100 / tree_size))
             self.tree.grow()
-
-    def add_thickness(self):
-        branches_with_thickness = []
-        for branch in self.tree.branches:
-            # circle = points_in_circum(math.sqrt(branch.thickness / 10 + 1), branch.pos, branch.direction)
-            circle = create_sphere(math.sqrt(branch.thickness / 10 + 1), branch.pos)
-            for point in circle:
-                branches_with_thickness.append(point)
-        return branches_with_thickness
 
     # Save point cloud to xyz format
     def save(self):
-        # DIR = os.getcwd() + '\\xyz'
-        # DIR = DIR.replace('\\', '/')
-        # amount_of_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+        DIR = os.getcwd() + '\\xyz'
+        DIR = DIR.replace('\\', '/')
+        amount_of_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
         # # save bare bone version of tree without _THICKNESS_
         # name = DIR + '/gen' + str(amount_of_files + 1) + '_' + str(
         #     datetime.date.today().strftime("%d_%m")) + "_centroid.xyz"
         # self.save_points_to_xyz(self.tree.save(), name)
         #
-        # # save _THICKNESS_ version of tree
-        # thick_name = DIR + '/gen' + str(amount_of_files) + '_' + str(
-        #     datetime.date.today().strftime("%d_%m")) + "_centroid_thickness.xyz"
-        # self.save_points_to_xyz(self.thick_tree, thick_name)
-
+        # save _THICKNESS_ version of tree
+        thick_name = DIR + '/gen' + str(amount_of_files) + '_' + str(
+            datetime.date.today().strftime("%d_%m")) + "_centroid_thickness.xyz"
+        self.tree.thick = self.tree.add_thickness()
+        self.save_points_to_xyz(self.tree.thick, thick_name)
         RotationTest.view_pointclouds(self.tree.save())
 
     def save_leaves(self):

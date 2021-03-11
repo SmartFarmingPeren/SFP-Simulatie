@@ -140,7 +140,7 @@ def main():
     #     f.close()
 
     # show circle
-    branches = o3d.io.read_point_cloud(DIR + "EXgen12_04_03_centroid.xyz")
+    branches = o3d.io.read_point_cloud(DIR + "gen6_11_03_centroid_thickness.xyz")
     leaves = o3d.io.read_point_cloud(DIR + 'leaves_05_03.xyz')
     leaves.paint_uniform_color((.1, .8, .1))
     print(branches)

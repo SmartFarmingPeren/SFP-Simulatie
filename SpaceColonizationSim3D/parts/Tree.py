@@ -22,10 +22,32 @@ def calculate_distance(pos_begin, pos_destination):
     return distance
 
 
+def create_sphere(radius, origin):
+    resolution = radius * 1500
+    points = []
+    alpha = 4.0 * np.pi * radius * radius / resolution
+    d = np.sqrt(alpha)
+    m_nu = int(np.round(np.pi / d))
+    d_nu = np.pi / m_nu
+    d_phi = alpha / d_nu
+    count = 0
+    for m in range(0, m_nu):
+        nu = np.pi * (m + 0.5) / m_nu
+        m_phi = int(np.round(2 * np.pi * np.sin(nu) / d_phi))
+        for resolution in range(0, m_phi):
+            phi = 2 * np.pi * resolution / m_phi
+            xp = radius * np.sin(nu) * np.cos(phi)
+            yp = radius * np.sin(nu) * np.sin(phi)
+            zp = radius * np.cos(nu)
+            points.append([xp + origin[0], yp + origin[1], zp + origin[2]])
+            count += 1
+    return points
+
+
 class Tree:
     def __init__(self):
         self.leaves: List[Leaf] = []
-        self.branches: List[Branch] = []
+        self.thick = []
         self.reshuffle_leaves()
         self.root = None
         self.new_tree()
@@ -37,10 +59,9 @@ class Tree:
         # self.branches.clear()
 
         pos = np.array([250.0, 0.0, 250.0])
-        direction = np.array([0.0, 5.0, 0.0])
+        direction = np.array([0.0, 1.0, 0.0])
         self.root = Branch(level=1, color=np.array([0.3, 1.0, 0.6]))
         self.root.sections.append(Section(pos, direction, None))
-        self.branches.append(self.root)
 
         found = False
         while not found:
@@ -123,7 +144,7 @@ class Tree:
                 self.leaves.remove(leaf)
 
     def save(self):
-        return [self.to_pcd(), self.leaves_to_pcd()]
+        return [self.to_pcd(), self.leaves_to_pcd(), self.points_to_pcd(self.thick)]
 
     # method
     def to_pcd(self):
@@ -134,6 +155,10 @@ class Tree:
                 colors.append(branch.color)
         pcd = o3d.geometry.PointCloud(o3d.utility.Vector3dVector(points))
         pcd.colors = o3d.utility.Vector3dVector(np.asarray(colors))
+        return pcd
+
+    def points_to_pcd(self, points):
+        pcd = o3d.geometry.PointCloud(o3d.utility.Vector3dVector(points))
         return pcd
 
     def save_leaves(self):
@@ -149,6 +174,16 @@ class Tree:
         for branch in get_next(self.root):
             for section in branch.sections:
                 yield section.pos
+
+    def add_thickness(self):
+        branches_with_thickness = []
+        for branch in get_next(self.root):
+            for section in branch.sections:
+                # circle = points_in_circum(math.sqrt(branch.thickness / 10 + 1), branch.pos, branch.direction)
+                circle = create_sphere(np.math.sqrt(section.thickness / 10 + 1), section.pos)
+                for point in circle:
+                    branches_with_thickness.append(point)
+        return branches_with_thickness
 
     # def subdivide(self):
     #     print("SUBDIVIDING POINTS")
