@@ -17,11 +17,9 @@ public class placeholder_boom_script : MonoBehaviour
         ofset.z = -9.94f;
 
         // load all the tree objects into trees and pick one to render
-        trees = Resources.LoadAll(path:"treefolder");
+        trees = Resources.LoadAll(path:"treefolder/prefab");
 
-        int treeslen = trees.Length/3;
-        int treepick = Random.Range(1, treeslen + 1) - 1;
-        treepick *= 3;
+        int treepick = Random.Range(1, trees.Length + 1) - 1;
         treeobject = (GameObject)Instantiate(trees[treepick]);
 
         // place the tree in the correct postion
