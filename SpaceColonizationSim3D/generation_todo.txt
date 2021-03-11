@@ -7,3 +7,5 @@
 - save methode voor boom die takken hierarchie behoud
 
 - leeftijds-classificatie
+
+- The trees are to big 460 meter
