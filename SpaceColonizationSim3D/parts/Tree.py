@@ -6,8 +6,7 @@ from parts.Leaf import Leaf
 from parts.Branch import Branch, get_next
 from parts.Section import Section
 from parts.yearOne.YearOneLeaf import YearOneLeaf
-from utils import TreeProcess
-from utils.Viewer import Viewer
+from utils import IO
 
 AMOUNT_OF_LEAVES: int = 200
 MIN_DIST: int = 400  # 20 ** 2, minimal distance is squared to remove a slow square root
@@ -144,7 +143,7 @@ class Tree:
                 self.leaves.remove(leaf)
 
     def save(self):
-        return [self.to_pcd(), self.leaves_to_pcd(), self.points_to_pcd(self.thick)]
+        return [self.to_pcd(), self.leaves_to_pcd(), IO.points_to_pcd(self.thick)]
 
     # method
     def to_pcd(self):
@@ -155,10 +154,6 @@ class Tree:
                 colors.append(branch.color)
         pcd = o3d.geometry.PointCloud(o3d.utility.Vector3dVector(points))
         pcd.colors = o3d.utility.Vector3dVector(np.asarray(colors))
-        return pcd
-
-    def points_to_pcd(self, points):
-        pcd = o3d.geometry.PointCloud(o3d.utility.Vector3dVector(points))
         return pcd
 
     def save_leaves(self):
