@@ -1,10 +1,10 @@
+from utils import IO
 from utils.TreeProcess import TreeProcess
 
 
 # Creates tree processes
 class ProcessManager:
-    # generation is how many trees you want
-    def __init__(self, amount_of_trees):
+    def __init__(self, amount_of_trees=1):
         self.amount_of_trees = amount_of_trees
 
     def grow_tree(self):
