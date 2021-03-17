@@ -173,3 +173,4 @@ class Tree:
                 for point in circle:
                     branches_with_thickness.append(point)
         return branches_with_thickness
+    
