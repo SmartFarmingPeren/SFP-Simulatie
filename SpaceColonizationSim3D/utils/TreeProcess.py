@@ -102,16 +102,16 @@ class TreeProcess(Process):
         DIR = DIR.replace('\\', '/')
         amount_of_files = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
         # # save bare bone version of tree without _THICKNESS_
-        # name = DIR + '/gen' + str(amount_of_files + 1) + '_' + str(
+        # name = DIR + '/gen' + str(amount_of_files) + '_' + str(
         #     datetime.date.today().strftime("%d_%m")) + "_centroid.xyz"
         # self.save_points_to_xyz(self.tree.save(), name)
-        #
+
         # save _THICKNESS_ version of tree
         thick_name = DIR + '/gen' + str(amount_of_files) + '_' + str(
             datetime.date.today().strftime("%d_%m")) + "_centroid_thickness.xyz"
         self.tree.thick = self.tree.add_thickness()
         self.save_points_to_xyz(self.tree.thick, thick_name)
-        RotationTest.view_pointclouds(self.tree.save())
+        # RotationTest.view_pointclouds(self.tree.save())
 
     def save_leaves(self):
         DIR = os.getcwd() + '\\xyz'
