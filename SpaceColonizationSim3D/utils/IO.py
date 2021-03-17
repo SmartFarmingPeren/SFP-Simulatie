@@ -8,7 +8,7 @@ from parts import Tree
 
 # Save tree to seperate xyz files
 def save_tree(tree: Tree):
-    leaves, base, expanded = tree.save()
+    base, leaves, expanded = tree.save()
     save_part('base', base)
     save_part('expanded', expanded)
     save_part('leaves', leaves)
