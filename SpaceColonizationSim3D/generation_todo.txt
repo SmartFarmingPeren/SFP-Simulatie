@@ -11,3 +11,10 @@
 - The trees are too big 460 meter
 
 - split output files naar 2 folders (thick en skeleton)
+
+
+- haal zwemvliezen weg?
+
+- meer punten op splitsingen?
+
+- opslaan normal vectors (parameters)?
