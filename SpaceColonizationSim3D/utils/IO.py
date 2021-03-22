@@ -1,8 +1,8 @@
 import datetime
 import os
+
 import open3d as o3d
 
-import RotationTest
 from parts import Tree
 
 
@@ -68,10 +68,20 @@ def load_part(part_name, id):
 
 # View tree in open3d
 def view():
-    RotationTest.view_pointclouds([points_to_pcd(part) for part in load_tree()])
+    view_pointclouds([points_to_pcd(part) for part in load_tree()])
 
 
 def points_to_pcd(points):
     pcd = o3d.geometry.PointCloud(o3d.utility.Vector3dVector(points))
     return pcd
 
+
+def view_pointclouds(pcds):
+    o3d.visualization.draw_geometries(pcds, width=1080, height=720, mesh_show_back_face=False)
+
+
+def view_models(model_names):
+    models = []
+    for name in model_names:
+        models.append(o3d.io.read_point_cloud(name))
+    o3d.visualization.draw_geometries(models, width=1080, height=720, mesh_show_back_face=False)

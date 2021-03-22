@@ -1,7 +1,10 @@
 import math
 from multiprocessing import Process
-from parts.Tree import Tree
+
 from utils import IO
+
+from parts.Tree import Tree
+from utils.CONFIGFILE import TREE_SIZE
 
 PI = math.pi
 
@@ -60,7 +63,7 @@ class TreeProcess(Process):
 
     def grow_tree(self):
         # change tree_size to your preference. ideal size is between 100 and 150
-        tree_size = 150
+        tree_size = TREE_SIZE
         for i in range(tree_size):
             print("%3.2f%% complete.." % (i * 100 / tree_size))
             self.tree.grow()
