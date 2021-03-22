@@ -1,30 +1,36 @@
-import numpy as np
 from typing import List
 
 from parts.Section import Section
 
 SECTION_LENGTH = 2
 
+COLORS = [[0.0, 0.0, 0.0],  # Age 0 = BLACK
+          [0.0, 1.0, 0.0],  # Age 1 = GREEN
+          [1.0, 1.0, 0.0],  # Age 2 = YELLOW
+          [1.0, 0.0, 0.0],  # Age 3 = RED
+          [0.0, 0.0, 1.0]]  # Age 4 = BLUE
+
 
 class Branch:
-    def __init__(self, level, color, parent: 'Branch' = None):
+    def __init__(self, age, parent: 'Branch' = None):
         # First section is at the start of the branch, last section is at the end
         self.sections: List[Section] = []
         self.children: List[Branch] = []
         self.parent: Branch = parent
-        self.color: np.array = color
-        self.level = level
+        self.age = age
 
-    # this method returns a new branch and makes it a child
-    def next(self, section):
-        new_color = self.color / [self.level + 1, self.level + 0.5, self.level + .25]
-        new_branch = Branch(level=self.level + 1, color=new_color, parent=self)
+    def next(self, section: Section):
+        new_branch = Branch(age=1, parent=self)
         new_branch.sections.append(section)
         self.children.append(new_branch)
         return new_branch
 
     def add_section(self):
         self.sections.append(self.get_last_section().next())
+
+    def return_color(self):
+
+        return COLORS[self.age]
 
     #
     # def reset(self):
