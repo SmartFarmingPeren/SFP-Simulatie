@@ -2,8 +2,9 @@ import numpy as np
 
 from utils.CONFIGFILE import ADD_THICKNESS_VALUE
 
-SECTION_LENGTH: float = 1 # 2.0
+SECTION_LENGTH: float = 1  # 2.0
 TRESHOLD = 0.3
+
 
 class Section:
     def __init__(self, pos, direction, parent, thickness=1):

@@ -1,5 +1,6 @@
 from utils.TreeProcess import TreeProcess
 
+
 # Creates tree processes
 class ProcessManager:
     def __init__(self, amount_of_trees=1):

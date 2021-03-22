@@ -3,11 +3,11 @@ from typing import List
 
 import numpy as np
 import open3d as o3d
-from parts.Leaf import Leaf
-from parts.Branch import Branch, get_next
-from parts.Section import Section
 from utils import IO
 
+from parts.Branch import Branch, get_next
+from parts.Leaf import Leaf
+from parts.Section import Section
 from utils.CONFIGFILE import AMOUNT_OF_LEAVES, POINTS_PER_SPHERE
 
 MIN_DIST: int = 100  # 20 ** 2, minimal distance is squared to remove a slow square root
@@ -63,8 +63,6 @@ class Tree:
         direction = np.array([0.0, 1.0, 0.0])
         self.root = Branch(level=1, color=np.array([0.3, 1.0, 0.6]))
         self.root.sections.append(Section(pos, direction, None))
-
-        IO.save_part('leaves', self.leaves_to_pcd())
 
         found = False
         while not found:
@@ -171,4 +169,3 @@ class Tree:
                 for point in circle:
                     branches_with_thickness.append(point)
         return branches_with_thickness
-    
