@@ -1,3 +1,4 @@
+import random
 from typing import List
 
 import numpy as np
@@ -5,11 +6,11 @@ import open3d as o3d
 from parts.Leaf import Leaf
 from parts.Branch import Branch, get_next
 from parts.Section import Section
-from parts.yearOne.YearOneLeaf import YearOneLeaf
 from utils import IO
 
-AMOUNT_OF_LEAVES: int = 200
-MIN_DIST: int = 400  # 20 ** 2, minimal distance is squared to remove a slow square root
+from utils.CONFIGFILE import AMOUNT_OF_LEAVES, POINTS_PER_SPHERE
+
+MIN_DIST: int = 100  # 20 ** 2, minimal distance is squared to remove a slow square root
 MAX_DIST: int = 2500  # 50 ** 2, maximal distance is squared to remove a slow square root
 
 
@@ -22,7 +23,8 @@ def calculate_distance(pos_begin, pos_destination):
 
 
 def create_sphere(radius, origin):
-    resolution = radius * 1500
+    radius /= 4
+    resolution = radius * POINTS_PER_SPHERE
     points = []
     alpha = 4.0 * np.pi * radius * radius / resolution
     d = np.sqrt(alpha)
@@ -56,10 +58,13 @@ class Tree:
         # TODO add method to remove all branches (resursively)
         # self.branches.clear()
 
-        pos = np.array([250.0, 0.0, 250.0])
+        # pos = np.array([50, 0.0, 37.5])
+        pos = np.array([random.randint(40, 60), 0.0, random.randint(30, 45)])
         direction = np.array([0.0, 1.0, 0.0])
         self.root = Branch(level=1, color=np.array([0.3, 1.0, 0.6]))
         self.root.sections.append(Section(pos, direction, None))
+
+        IO.save_part('leaves', self.leaves_to_pcd())
 
         found = False
         while not found:
@@ -73,7 +78,6 @@ class Tree:
 
             if not found:
                 self.root.add_section()
-            print(found)
 
     def grow(self):
         for leaf in self.leaves:
@@ -125,12 +129,6 @@ class Tree:
         self.leaves.clear()
         for _ in range(AMOUNT_OF_LEAVES):
             self.leaves.append(Leaf())
-
-    # not yet implemented, first year leaves are meant to be the 4 guiding branches
-    def reshuffle_first_year_leaves(self):
-        self.leaves.clear()
-        for _ in range(AMOUNT_OF_LEAVES):
-            self.leaves.append(YearOneLeaf())
 
     def trim_leaves(self):
         for leaf in reversed(self.leaves):
