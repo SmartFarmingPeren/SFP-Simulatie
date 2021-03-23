@@ -29,8 +29,7 @@ class Branch:
         self.sections.append(self.get_last_section().next())
 
     def return_color(self):
-
-        return COLORS[self.age]
+        return COLORS[self.age] if self.age <= 4 else COLORS[0]
 
     #
     # def reset(self):

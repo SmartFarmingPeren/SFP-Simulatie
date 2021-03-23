@@ -150,7 +150,7 @@ class Tree:
         colors = []
         for branch in get_next(self.root):
             for _ in branch.sections:
-                colors.append(branch.color)
+                colors.append(branch.return_color())
         pcd = IO.points_to_pcd(points)
         pcd.colors = o3d.utility.Vector3dVector(np.asarray(colors))
         return pcd
@@ -176,7 +176,6 @@ class Tree:
                 for point in circle:
                     branches_with_thickness.append(point)
         return branches_with_thickness
-
 
     # https://www.journaldev.com/23022/height-of-a-tree-data-structure#height-of-the-tree-8211-iteratively
     def refresh_age(self, branch: Branch):
