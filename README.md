@@ -25,3 +25,10 @@
 
 `python3 Main.py`
 
+## New commits
+Before a new commit be sure to run:
+
+`python3 test.py`
+
+If there apear any errors DO NOT push your code.
+
