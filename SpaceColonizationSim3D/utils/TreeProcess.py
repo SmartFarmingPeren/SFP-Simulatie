@@ -14,12 +14,14 @@ class TreeProcess(Process):
         super(TreeProcess, self).__init__()
         self.tree = Tree()
 
+        # self.grow_tree()
+        # self.tree.thick = self.tree.add_thickness()
+        # IO.save_tree(self.tree)
+
+    def run(self):
         self.grow_tree()
         self.tree.thick = self.tree.add_thickness()
         IO.save_tree(self.tree)
-
-    def run(self):
-        pass
 
     def grow_tree(self):
         # change tree_size to your preference. ideal size is between 100 and 150

@@ -8,7 +8,7 @@ POINTS_PER_SPHERE = 720
 # Default value 100-500 (higher size == longer generation, and more branches)
 TREE_SIZE = 350
 # Default value 1
-AMOUNT_OF_TREES = 1
+AMOUNT_OF_TREES = 10
 # Default value = 400
 MIN_DIST = 200  # 20 ** 2, minimal distance is squared to remove a slow square root
 # Default value 2500
@@ -52,7 +52,7 @@ NORMAL_Z_HIGH = 450
 V_HAGUE_X_1_LOW = 0
 V_HAGUE_X_1_HIGH = 40
 # Default values y1(50, 200)
-V_HAGUE_Y_1_LOW = 25
+V_HAGUE_Y_1_LOW = 35
 V_HAGUE_Y_1_HIGH = 100
 # Default values z1(0, 75)
 V_HAGUE_Z_1_LOW = 0
