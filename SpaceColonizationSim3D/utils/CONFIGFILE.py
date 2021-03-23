@@ -2,15 +2,15 @@
 # Default values thickness_v-hague(0.2-0.4), thickness_normal(1)
 ADD_THICKNESS_VALUE = 0.3
 # Default value 200, should be a int
-AMOUNT_OF_LEAVES = 300
+AMOUNT_OF_LEAVES = 500
 # Default value 360-1080
 POINTS_PER_SPHERE = 720
 # Default value 100-500 (higher size == longer generation, and more branches)
-TREE_SIZE = 250
+TREE_SIZE = 350
 # Default value 1
 AMOUNT_OF_TREES = 1
 # Default value = 400
-MIN_DIST = 400  # 20 ** 2, minimal distance is squared to remove a slow square root
+MIN_DIST = 200  # 20 ** 2, minimal distance is squared to remove a slow square root
 # Default value 2500
 MAX_DIST = 2500  # 50 ** 2, maximal distance is squared to remove a slow square root
 # Default value 2
@@ -22,17 +22,17 @@ SPHERE_RADIUS_DIVISOR = 2
 
 # [Center point configuration]
 # Default values Normal tree (x, y ,z) (200, 0, 200)
-# Default values V-hague tree (x, y ,z) (50, 0, 37.5)
-CENTER_X = 200
+# Default values V-hague tree (x, y ,z) (50, 0, 38)
+CENTER_X = 50
 CENTER_Y = 0
-CENTER_Z = 200
+CENTER_Z = 38
 # Default value 0, this value makes the leader off center.
-CENTER_DEVIATION = 20
+CENTER_DEVIATION = 5
 
 # [Tree species configuration]
 # 0: NORMAL TREE
 # 1: V-HAGUE
-KIND_OF_TREE = 0
+KIND_OF_TREE = 1
 
 # [Normal tree configuration]
 # Default values x(50, 450), y(200, 500), z(50, 450)
@@ -52,8 +52,8 @@ NORMAL_Z_HIGH = 450
 V_HAGUE_X_1_LOW = 0
 V_HAGUE_X_1_HIGH = 40
 # Default values y1(50, 200)
-V_HAGUE_Y_1_LOW = 50
-V_HAGUE_Y_1_HIGH = 200
+V_HAGUE_Y_1_LOW = 25
+V_HAGUE_Y_1_HIGH = 100
 # Default values z1(0, 75)
 V_HAGUE_Z_1_LOW = 0
 V_HAGUE_Z_1_HIGH = 75
@@ -63,8 +63,8 @@ V_HAGUE_Z_1_HIGH = 75
 V_HAGUE_X_2_LOW = 60
 V_HAGUE_X_2_HIGH = 100
 # Default values y2(30, 200)
-V_HAGUE_Y_2_LOW = 30
-V_HAGUE_Y_2_HIGH = 200
+V_HAGUE_Y_2_LOW = 25
+V_HAGUE_Y_2_HIGH = 100
 # Default values z2(0, 75)
 V_HAGUE_Z_2_LOW = 0
 V_HAGUE_Z_2_HIGH = 75
