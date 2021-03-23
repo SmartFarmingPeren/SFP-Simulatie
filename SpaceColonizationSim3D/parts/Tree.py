@@ -178,15 +178,15 @@ class Tree:
         return branches_with_thickness
 
 
-# https://www.journaldev.com/23022/height-of-a-tree-data-structure#height-of-the-tree-8211-iteratively
-def refresh_age(self, branch: Branch):
-    if branch is None:
-        return 0
-    heights = []
-    for child in branch.children:
-        height = self.refresh_age(child)
-        print(height)
-        heights.append(height)
-    height = max(heights) + 1 if len(heights) > 0 else 1
-    branch.age = height
-    return height
+    # https://www.journaldev.com/23022/height-of-a-tree-data-structure#height-of-the-tree-8211-iteratively
+    def refresh_age(self, branch: Branch):
+        if branch is None:
+            return 0
+        heights = []
+        for child in branch.children:
+            height = self.refresh_age(child)
+            print(height)
+            heights.append(height)
+        height = max(heights) + 1 if len(heights) > 0 else 1
+        branch.age = height
+        return height
