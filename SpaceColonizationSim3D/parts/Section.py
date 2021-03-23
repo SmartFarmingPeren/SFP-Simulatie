@@ -1,9 +1,7 @@
 import numpy as np
 
-from utils.CONFIGFILE import ADD_THICKNESS_VALUE
+from utils.CONFIGFILE import ADD_THICKNESS_VALUE, THRESHOLD, SECTION_LENGTH
 
-SECTION_LENGTH: float = 1 # 2.0
-TRESHOLD = 0.3
 
 class Section:
     def __init__(self, pos, direction, parent, thickness=1):
@@ -18,10 +16,10 @@ class Section:
         # new_dir = self.direction + next_direction
         next_dir = self.direction * SECTION_LENGTH
         for count in range(0, 3):
-            if next_dir[count] > TRESHOLD:
-                next_dir[count] = TRESHOLD
-            if next_dir[count] < -TRESHOLD:
-                next_dir[count] = -TRESHOLD
+            if next_dir[count] > THRESHOLD:
+                next_dir[count] = THRESHOLD
+            if next_dir[count] < -THRESHOLD:
+                next_dir[count] = -THRESHOLD
         next_pos = self.pos + next_dir
         self.add_thickness()
         return Section(pos=next_pos, direction=self.direction, parent=self)

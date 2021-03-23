@@ -3,15 +3,13 @@ from typing import List
 
 import numpy as np
 import open3d as o3d
-from parts.Leaf import Leaf
-from parts.Branch import Branch, get_next
-from parts.Section import Section
 from utils import IO
 
-from utils.CONFIGFILE import AMOUNT_OF_LEAVES, POINTS_PER_SPHERE
-
-MIN_DIST: int = 100  # 20 ** 2, minimal distance is squared to remove a slow square root
-MAX_DIST: int = 2500  # 50 ** 2, maximal distance is squared to remove a slow square root
+from parts.Branch import Branch, get_next
+from parts.Leaf import Leaf
+from parts.Section import Section
+from utils.CONFIGFILE import AMOUNT_OF_LEAVES, POINTS_PER_SPHERE, MIN_DIST, MAX_DIST, SPHERE_RADIUS_DIVISOR, \
+    CENTER_DEVIATION, CENTER_X, CENTER_Z, CENTER_Y
 
 
 # Made by minor 20/21 without comments so understanding is a bit difficult.
@@ -23,7 +21,8 @@ def calculate_distance(pos_begin, pos_destination):
 
 
 def create_sphere(radius, origin):
-    radius /= 4
+    if SPHERE_RADIUS_DIVISOR != 0:
+        radius /= SPHERE_RADIUS_DIVISOR
     resolution = radius * POINTS_PER_SPHERE
     points = []
     alpha = 4.0 * np.pi * radius * radius / resolution
@@ -59,12 +58,18 @@ class Tree:
         # self.branches.clear()
 
         # pos = np.array([50, 0.0, 37.5])
-        pos = np.array([random.randint(40, 60), 0.0, random.randint(30, 45)])
+        if CENTER_DEVIATION > 0:
+            x_low = CENTER_X - CENTER_DEVIATION
+            x_high = CENTER_X + CENTER_DEVIATION
+            z_low = CENTER_Z - CENTER_DEVIATION
+            z_high = CENTER_Z + CENTER_DEVIATION
+            pos = np.array([random.randint(x_low, x_high), CENTER_Y, random.randint(z_low, z_high)])
+        else:
+            pos = np.array([CENTER_X, CENTER_Y, CENTER_Z])
+        # pos = np.array([random.randint(40, 60), 0.0, random.randint(30, 45)])
         direction = np.array([0.0, 1.0, 0.0])
         self.root = Branch(level=1, color=np.array([0.3, 1.0, 0.6]))
         self.root.sections.append(Section(pos, direction, None))
-
-        IO.save_part('leaves', self.leaves_to_pcd())
 
         found = False
         while not found:
@@ -171,4 +176,3 @@ class Tree:
                 for point in circle:
                     branches_with_thickness.append(point)
         return branches_with_thickness
-    

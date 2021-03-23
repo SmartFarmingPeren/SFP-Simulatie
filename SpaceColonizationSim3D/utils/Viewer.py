@@ -19,4 +19,5 @@ class Viewer:
             models.append(pc)
 
         callback = {ord(" "): update}
-        o3d.visualization.draw_geometries_with_key_callbacks(self.models, key_to_callback=callback, width=1080, height=720)
+        o3d.visualization.draw_geometries_with_key_callbacks(self.models, key_to_callback=callback, width=1080,
+                                                             height=720)
