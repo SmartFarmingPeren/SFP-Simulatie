@@ -68,7 +68,7 @@ class Tree:
             pos = np.array([CENTER_X, CENTER_Y, CENTER_Z])
         # pos = np.array([random.randint(40, 60), 0.0, random.randint(30, 45)])
         direction = np.array([0.0, 1.0, 0.0])
-        self.root = Branch(level=1, color=np.array([0.3, 1.0, 0.6]))
+        self.root = Branch(age=1)
         self.root.sections.append(Section(pos, direction, None))
 
         found = False
@@ -176,3 +176,17 @@ class Tree:
                 for point in circle:
                     branches_with_thickness.append(point)
         return branches_with_thickness
+
+
+# https://www.journaldev.com/23022/height-of-a-tree-data-structure#height-of-the-tree-8211-iteratively
+def refresh_age(self, branch: Branch):
+    if branch is None:
+        return 0
+    heights = []
+    for child in branch.children:
+        height = self.refresh_age(child)
+        print(height)
+        heights.append(height)
+    height = max(heights) + 1 if len(heights) > 0 else 1
+    branch.age = height
+    return height

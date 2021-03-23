@@ -20,6 +20,7 @@ class TreeProcess(Process):
 
     def run(self):
         self.grow_tree()
+        self.tree.refresh_age(self.tree.root)
         self.tree.thick = self.tree.add_thickness()
         IO.save_tree(self.tree)
 
