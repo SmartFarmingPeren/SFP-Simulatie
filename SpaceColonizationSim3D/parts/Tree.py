@@ -96,7 +96,7 @@ class Tree:
 
             closest_section, shortest_distance = min(distance_table, key=lambda t: t[1])
             # if closest section is outside the distance range
-            if not (MIN_DIST < shortest_distance):
+            if not (MIN_DIST < shortest_distance< MAX_DIST):
                 if shortest_distance < MIN_DIST:
                     reached = True
             else:
@@ -176,7 +176,6 @@ class Tree:
         heights = []
         for child in branch.children:
             height = self.refresh_age(child)
-            print(height)
             heights.append(height)
         height = max(heights) + 1 if len(heights) > 0 else 1
         branch.age = height

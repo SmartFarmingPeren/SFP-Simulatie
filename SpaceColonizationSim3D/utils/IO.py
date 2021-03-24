@@ -46,7 +46,7 @@ def save_points_to_xyz(points, location):
 
 # Load tree from seperate parts using the tree's ID
 # For example id = 'gen_0_16_03'
-def load_tree(id='gen_15_23_03'):
+def load_tree(id='gen_19_24_03'):
     base = load_part('base', id)
     expanded = load_part('expanded', id)
     leaves = load_part('leaves', id)
