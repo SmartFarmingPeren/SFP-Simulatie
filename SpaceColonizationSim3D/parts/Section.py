@@ -32,3 +32,6 @@ class Section:
         self.thickness += ADD_THICKNESS_VALUE
         if self.parent is not None:
             self.parent.add_thickness()
+
+    def __str__(self):
+        return "Section; position: [%.2f, %.2f, %.2f]" % (self.pos[0], self.pos[1], self.pos[2])

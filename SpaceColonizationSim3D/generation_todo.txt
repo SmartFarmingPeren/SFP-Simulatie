@@ -1,20 +1,9 @@
-- fix error maak directory aan
-
 - fix rotatie branch cirkels
-
-- fix messy code
 
 - save methode voor boom die takken hierarchie behoud
 
-- leeftijds-classificatie
-
 - The trees are too big 460 meter
 
-- split output files naar 2 folders (thick en skeleton)
-
-
-- haal zwemvliezen weg?
-
-- meer punten op splitsingen?
-
 - opslaan normal vectors (parameters)?
+
+- save leaves before they get removed instead of after

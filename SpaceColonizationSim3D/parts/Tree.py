@@ -17,6 +17,7 @@ from utils.CONFIGFILE import AMOUNT_OF_LEAVES, POINTS_PER_SPHERE, MIN_DIST, MAX_
 def calculate_distance(pos_begin, pos_destination):
     absolute_x_y_z = np.absolute(pos_begin - pos_destination)
     distance = int(absolute_x_y_z[0] ** 2 + absolute_x_y_z[1] ** 2 + absolute_x_y_z[2] ** 2)
+
     return distance
 
 
@@ -85,40 +86,31 @@ class Tree:
                 self.root.add_section()
 
     def grow(self):
-        for leaf in self.leaves:
-            closest_section = None
-            closest_record = 1000
-
+        for leaf in reversed(self.leaves):
+            reached = False
+            distance_table = []
             for branch in get_next(self.root):
                 for section in branch.sections:
                     distance = calculate_distance(leaf.pos, section.pos)
-                    # if a section reached a leaf, break
-                    if distance < MIN_DIST:
-                        leaf.reached = True
-                        closest_section = None
-                        break
-                    # elif distance is smaller compared to thsee previously closest ction, make this the closest
-                    elif closest_section is None or distance < closest_record:
-                        closest_section = section
-                        closest_record = distance
-                    # filter out points that are too far away from the point (kinda pointless)
-                    elif distance > MAX_DIST:
-                        pass
+                    distance_table.append([section, distance])
 
-            # sets the direction for the next section in the growable branch
-            if closest_section is not None:
+            closest_section, shortest_distance = min(distance_table, key=lambda t: t[1])
+            # if closest section is outside the distance range
+            if not (MIN_DIST < shortest_distance):
+                if shortest_distance < MIN_DIST:
+                    reached = True
+            else:
+                # sets the direction for the next section in the growable branch
                 new_dir = leaf.pos - closest_section.pos
                 factor = np.linalg.norm(new_dir)
                 new_dir = new_dir / factor
                 closest_section.direction = closest_section.direction + new_dir
                 closest_section.count += 1
 
-        # removes any leaves that are 'reached'
-        for leaf in reversed(self.leaves):
-            if leaf.reached:
+            if reached:
                 self.leaves.remove(leaf)
 
-        # go through every branch, create a new branch for every growable section that isnt the last section.
+        # Go through every branch, create a new branch for every growable section that isnt the last section.
         # Otherwise just create a new section in the same branch
         for branch in get_next(self.root):
             for section in branch.sections:

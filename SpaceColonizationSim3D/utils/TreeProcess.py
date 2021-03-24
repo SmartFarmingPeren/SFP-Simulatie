@@ -8,21 +8,24 @@ from utils.CONFIGFILE import TREE_SIZE
 
 PI = math.pi
 
+
 class TreeProcess(Process):
 
     def __init__(self):
         super(TreeProcess, self).__init__()
         self.tree = Tree()
 
-        # self.grow_tree()
-        # self.tree.thick = self.tree.add_thickness()
-        # IO.save_tree(self.tree)
-
-    def run(self):
         self.grow_tree()
         self.tree.refresh_age(self.tree.root)
         self.tree.thick = self.tree.add_thickness()
         IO.save_tree(self.tree)
+
+    def run(self):
+        # self.grow_tree()
+        # self.tree.refresh_age(self.tree.root)
+        # self.tree.thick = self.tree.add_thickness()
+        # IO.save_tree(self.tree)
+        pass
 
     def grow_tree(self):
         # change tree_size to your preference. ideal size is between 100 and 150
