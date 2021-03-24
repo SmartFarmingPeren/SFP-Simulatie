@@ -16,13 +16,14 @@ public class kar_camera_script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Move camera
-        CharacterController controller = GetComponent<CharacterController>();
-        //moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        moveDirection = new Vector3(-Input.GetAxis("Vertical"), 0, Input.GetAxis("Horizontal"));
-        moveDirection = transform.TransformDirection(moveDirection);
-        moveDirection *= speed;
+        
+            // Move camera
+            CharacterController controller = GetComponent<CharacterController>();
+            //moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            moveDirection = new Vector3(-Input.GetAxis("Vertical"), 0, Input.GetAxis("Horizontal"));
+            moveDirection = transform.TransformDirection(moveDirection);
+            moveDirection *= speed;
 
-        controller.Move(moveDirection * Time.deltaTime);
+            controller.Move(moveDirection * Time.deltaTime);
     }
 }
