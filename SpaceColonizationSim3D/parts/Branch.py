@@ -20,15 +20,26 @@ class Branch:
         self.age = age
 
     def next(self, section: Section):
+        """
+        Creates a new branch with age 1 and gives it the first section
+        :rtype: Returns the newly generated branch
+        """
         new_branch = Branch(age=1, parent=self)
         new_branch.sections.append(section)
         self.children.append(new_branch)
         return new_branch
 
     def add_section(self):
+        """
+        Adds a new section to an existing branch
+        """
         self.sections.append(self.get_last_section().next())
 
     def return_color(self):
+        """
+        This function is used to return the color of the branch
+        :rtype: It returns the exact color of the branch
+        """
         return COLORS[self.age] if self.age <= 4 else COLORS[0]
 
     #
@@ -44,21 +55,35 @@ class Branch:
     #     #     self.parent.add_thickness()
 
     def get_first_section(self):
+        """
+        Goes to the first section of a branch
+        :rtype: Returns either the first section or nothing because you already are at the first section
+        """
         if len(self.sections) > 0:
             return self.sections[0]
         else:
             return None
 
     def get_last_section(self):
+        """
+        Goes to the last section of the branch
+        :rtype: Returns either the last section or none because you already are at the last section
+        """
         if len(self.sections) > 0:
             return self.sections[len(self.sections) - 1]
         else:
             return None
 
     def get_first_pos(self):
+        """
+        :rtype: Returns the first coordinate of a section
+        """
         return self.get_first_section().pos
 
     def get_last_pos(self):
+        """
+        :rtype: Returns the last coordinate of a section
+        """
         return self.get_last_section().pos
 
     # def subdivide(self):

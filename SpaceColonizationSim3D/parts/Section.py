@@ -13,6 +13,10 @@ class Section:
         self.parent = parent
 
     def next(self):
+        """
+        This function is used to determine the next position of a section of the tree.
+        :rtype: It returns a section with a position and a direction
+        """
         # new_dir = self.direction + next_direction
         next_dir = self.direction * SECTION_LENGTH
         for count in range(0, 3):
@@ -25,10 +29,16 @@ class Section:
         return Section(pos=next_pos, direction=self.direction, parent=self)
 
     def reset(self):
+        """
+        This function is used to reset the direction of a section
+        """
         self.direction = self.orig_dir
         self.count = 0
 
     def add_thickness(self):
+        """
+        With this function the thickness of the previous section is increased so the older the branch to thicker it gets
+        """
         self.thickness += ADD_THICKNESS_VALUE
         if self.parent is not None:
             self.parent.add_thickness()

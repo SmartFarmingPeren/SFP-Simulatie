@@ -9,6 +9,9 @@ from utils.CONFIGFILE import KIND_OF_TREE, NORMAL_X_LOW, NORMAL_Z_HIGH, NORMAL_Z
 
 
 class Leaf:
+    """
+    This class is used to generate leaves. A leaf is used to build the tree, each leaf exists of a x, y and z coordinate
+    """
     def __init__(self, pos=None):
         self.pos = np.array([0, 0, 0])
 
