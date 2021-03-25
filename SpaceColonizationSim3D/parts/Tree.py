@@ -63,7 +63,6 @@ class Tree:
     def __init__(self):
         self.leaves: List[Leaf] = []
         self.thick = []
-        self.reshuffle_leaves()
         self.root = None
         self.new_tree()
 
@@ -75,6 +74,8 @@ class Tree:
         """
         # TODO add method to remove all branches (resursively)
         # self.branches.clear()
+
+        self.add_leaves()
 
         # pos = np.array([50, 0.0, 37.5])
         if CENTER_DEVIATION > 0:
@@ -143,6 +144,15 @@ class Tree:
                     else:
                         branch.add_section()
                 section.reset()
+
+    def add_leaves(self):
+        """
+        add AMOUNT_OF_LEAVES leaves to the tree to start generation
+        :return list of new leaves
+        """
+        for _ in range(AMOUNT_OF_LEAVES):
+            self.leaves.append(Leaf())
+        return self.leaves
 
     def save(self):
         """
