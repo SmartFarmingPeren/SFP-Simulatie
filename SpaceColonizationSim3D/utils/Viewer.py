@@ -1,23 +1,27 @@
 import open3d as o3d
+import numpy as np
+
+from utils import IO
 
 
 class Viewer:
-    def __init__(self, tree):
-        self.tree = tree
-        self.models = []
+    def __init__(self):
+        self.model = IO.points_to_pcd(IO.load_tree()[1])
         self.draw_key_callbacks()
 
     def draw_key_callbacks(self):
-        tree = self.tree
-        models = self.models
+        model: o3d.geometry.PointCloud = self.model
 
-        def update(vis):
-            models.clear()
-            tree.grow()
-            pc = o3d.geometry.PointCloud(o3d.utility.Vector3dVector(tree.branches[0].get_points_to_save([])))
-            pc.paint_uniform_color((.1, .8, .1))
-            models.append(pc)
+        def rotate_y(vis: o3d.visualization.Visualizer):
+            """
+            Demo update function that rotated the pointcloud by 1 degree each time you press the mapped button is mapped to
+            :param vis: input visualizer
+            """
+            vis.clear_geometries()
+            model.rotate(o3d.geometry.get_rotation_matrix_from_xyz([0.0, np.deg2rad(1.0), 0.0]))
+            vis.add_geometry(model)
 
-        callback = {ord(" "): update}
-        o3d.visualization.draw_geometries_with_key_callbacks(self.models, key_to_callback=callback, width=1080,
+        # map [spacebar] to the update() function
+        callback = {ord(" "): rotate_y}
+        o3d.visualization.draw_geometries_with_key_callbacks([self.model], key_to_callback=callback, width=1080,
                                                              height=720)

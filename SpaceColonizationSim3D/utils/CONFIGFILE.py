@@ -2,11 +2,11 @@
 # Default values thickness_v-hague(0.2-0.4), thickness_normal(1)
 ADD_THICKNESS_VALUE = 0.3
 # Default value 200, should be a int
-AMOUNT_OF_LEAVES: int = 400
+AMOUNT_OF_LEAVES: int = 2000
 # Default value 360-1080
 POINTS_PER_SPHERE = 720
 # Default value 100-500 (higher size == longer generation, and more branches)
-TREE_SIZE = 350
+TREE_SIZE = 500
 # Default value 1
 AMOUNT_OF_TREES = 1
 # Default value = 400

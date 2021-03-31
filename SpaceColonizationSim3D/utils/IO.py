@@ -6,7 +6,6 @@ import open3d as o3d
 from parts import Tree
 
 
-# Save tree to seperate xyz files
 def save_tree(tree: Tree):
     """
     Used to save the different parts of the tree to xyz files. Namely the base, expanded(real tree) and leaves
@@ -60,11 +59,9 @@ def save_points_to_xyz(points, location):
     f.close()
 
 
-# Load tree from separate parts using the tree's ID
-# For example id = 'gen_0_16_03'
-def load_tree(id='gen_19_24_03'):
+def load_tree(id='gen_20_25_03'):
     """
-    Used to load a specific tree
+    Load tree from separate parts using the tree's ID, for example id = 'gen_0_16_03'
     :rtype: Returns the base, expanded and leaves of the tree
     """
     base = load_part('base', id)
@@ -90,11 +87,11 @@ def load_part(part_name, id):
         print("Cannot find part '%s' with id '%s' in '%s'!" % (part_name, id, path))
 
 
-def view():
+def view(id='gen_20_25_03'):
     """
     View parts of a tree in open3d
     """
-    view_pointclouds([points_to_pcd(part) for part in load_tree()])
+    view_pointclouds([points_to_pcd(part) for part in load_tree(id)])
 
 
 def points_to_pcd(points):
@@ -114,6 +111,9 @@ def view_pointclouds(pcds):
 
 
 def view_models(model_names):
+    """
+    Makes it possible to view pointcloud files by reading them as open3d.PointCloud object
+    """
     models = []
     for name in model_names:
         models.append(o3d.io.read_point_cloud(name))
