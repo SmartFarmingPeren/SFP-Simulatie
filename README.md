@@ -1,15 +1,15 @@
 # SFP-Simulatie
 
 ## Why ROS noetic and Unity
-Unity is used for it's ability to simulate 3D environments. A robot arm can be improted through the use of the URDF importer package. The Unity ROC-tcp-connector package is used to make the connection between unity and the ROS environment. Together this is used to simulate the robot arm in the 3D environment. The usage of ROS has been suggested by the Action group.
+We use Unity because its able to be used for 3D simulations, a robot can be imported with an .urdf file and its able to make a connection with ROS. We use ROS to move the imported robot, the usage of ROS has been suggested by the Action group.
 
 
 ## Requirements
-To use the environment you need the following:
+To setup everything there are some requirements to make the simulation usable.
 * A machine with Ubuntu 20.04 installed for ROS.
 * A machine with Unity 2020.2.0b9 installed.
 
-Both machines need to be able to connect to each other over internet to create the ROS connection.
+Both machines need to be able to connect to each other via the internet to create the ROS connection.
 Unity 2020.2.0b9 is used for compatibility with imported packages for a ROS connection and to import the robot.
 
 ## ROS Setup
@@ -38,7 +38,7 @@ If you're going to use this once or twice (needs to be done every time you want 
 ```
 source /opt/ros/noetic/setup.bash
 ```
-If you want the environment to be automatically set during login use:
+If you want the environment to be automaticcally set up use:
 ```
 echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
@@ -63,7 +63,7 @@ Install the required dependecies with:
 sudo apt-get install python3-pip ros-noetic-robot-state-publisher ros-noetic-moveit ros-noetic-rosbridge-suite ros-noetic-joy ros-noetic-ros-control ros-noetic-ros-controllers
 sudo -H pip3 install rospkg jsonpickle
 ```
-After the dependecies are installed create the workplace with ```catkin_make``` and add the workplace with ```source devel/setup.bash```. The source command needs to be executed everytime you want to use the workspace.
+After the dependecies are installed create the workplace with ```catkin_make``` and source the workplace with ```source devel/setup.bash```. The source needs to be done everytime you want to use the workspace.
 Make the machine discoverable to a ROS connection with.
 ```
 echo "ROS_IP: $(hostname -I)" > src/niryo_moveit/config/params.yaml
@@ -84,18 +84,45 @@ First navigate to ```PATH_TO\SFP-Simulatie\Unity\Boomgaard simulatie\Packages```
 * com.unity.robotics.ros-tcp-connector
 * com.unity.robotics.urdf-importer
 
-and cut them out of the file, for safety
+and cut them out of the file, for safety paste them in a notepad.
+Then open the Unity project in safe mode and open the package manager window.
+![package manager unity](https://user-images.githubusercontent.com/62204721/114180783-f6a69100-9940-11eb-8128-0652eb695e6e.png)
 
+In this window import the packages by selecting the "add package from git url..." option.
+![giturl](https://user-images.githubusercontent.com/62204721/114181177-77658d00-9941-11eb-99d7-12991b8a13be.png)
+and paste the folowing urls in the add bar.
+* https://github.com/Unity-Technologies/ROS-TCP-Connector.git?path=/com.unity.robotics.ros-tcp-connector#v0.2.0
+* https://github.com/Unity-Technologies/URDF-Importer.git?path=/com.unity.robotics.urdf-importer#v0.2.0
+
+![afbeelding](https://user-images.githubusercontent.com/62204721/114181535-ea6f0380-9941-11eb-8988-365fd54a0441.png)
+
+This should make you exit safe mode and you can open you Unity project.
 
 
 ## Import Robot
-To import robots through a .urdf file the [URDF-Importer](https://github.com/Unity-Technologies/URDF-Importer?path=/com.unity.robotics.urdf-importer#v0.2.0) package has been added to the project. To import the ur10e download the "ur10e" and "ur_description/meshes/ur10" folders from the [reveal_packages](https://github.com/PositronicsLab/reveal_packages/tree/master/industrial_arm/scenario/models/urdf) github page, place them in the Unity environment in the "Assets/URDF" folder, right click on the .urdf file and select "Import Robot from Selected URDF file". Then click "Import URDF" and give the new prefab a location.
+To import robots through a .urdf file the [URDF-Importer](https://github.com/Unity-Technologies/URDF-Importer?path=/com.unity.robotics.urdf-importer#v0.2.0) package has been added to the project. To import the ur10 download the "ur10" and "ur_description/meshes/ur10" folders from the [reveal_packages](https://github.com/PositronicsLab/reveal_packages/tree/master/industrial_arm/scenario/models/urdf) github page, place them in the Unity environment in the "Assets/URDF" folder, right click on the .urdf file and select "Import Robot from Selected URDF file". Then click "Import URDF" and give the new prefab a location.
+![import](https://user-images.githubusercontent.com/62204721/114182214-a8928d00-9942-11eb-8ee5-01b38b7fcc50.png)
+
+![afbeelding](https://user-images.githubusercontent.com/62204721/114182153-99abda80-9942-11eb-8756-130165926e30.png)
+
 For later use the ur10_moveit_config or the ur10_e_moveit_config folder from the [universal_robot](https://github.com/ros-industrial/universal_robot) git needs to be placed in the ROS/src folder.
 
 ## Connect to ROS
-To make a connection to ros the [ROS-TCP-Connector](https://github.com/Unity-Technologies/ROS-TCP-Connector?path=/com.unity.robotics.ros-tcp-connector#v0.2.0) package has been added to the project. Create a new empty for the ROS opperations and add the "ROS Connection" script to it as a new component. Generate the ROS messages by selecting the "Generate ROS Messages..." from the now present Robotics tab in the top bar, then select the ROS folder as the ROS message path and Build the msg and srv from ROS/src/ros_tcp_endpoint and Build the RobotTrajectory.msg from ROS/src/moveit_msgs/msg. Add the "ROS IP Address" in the ROS Connection script of the machine running ros (**Note:** may not work with a virtual machine) and Play to make the connection.
+To make a connection to ros the [ROS-TCP-Connector](https://github.com/Unity-Technologies/ROS-TCP-Connector?path=/com.unity.robotics.ros-tcp-connector#v0.2.0) package has been added to the project. Create a new empty for the ROS opperations and add the "ROS Connection" script to it as a new component.
+![afbeelding](https://user-images.githubusercontent.com/62204721/114182543-0626d980-9943-11eb-8a6a-897de02f8b65.png)
 
-For a more in depth explanation on how to set up a Unity connection with ROS visit the [Pick-and-Place](https://github.com/Unity-Technologies/Unity-Robotics-Hub/blob/main/tutorials/pick_and_place/README.md) Tutorial from the [Unity-Robotics-Hub](https://github.com/Unity-Technologies/Unity-Robotics-Hub) github page.
+Generate the ROS messages by selecting the "Generate ROS Messages..." from the now present Robotics tab in the top bar,
+![rosmessage](https://user-images.githubusercontent.com/62204721/114182767-4c7c3880-9943-11eb-9a8c-261db21eae25.png)
+
+then select the ROS folder as the ROS message path and Build the msg and srv from ROS/src/ros_tcp_endpoint and Build the RobotTrajectory.msg from ROS/src/moveit_msgs/msg.
+
+![afbeelding](https://user-images.githubusercontent.com/62204721/114183048-9d8c2c80-9943-11eb-92ca-5f085d393861.png)
+
+![afbeelding](https://user-images.githubusercontent.com/62204721/114183232-beed1880-9943-11eb-9e33-c5259561da32.png)
+
+Add the "ROS IP Address" in the ROS Connection script of the machine running ros (**Note:** may not work with a virtual machine) and Play to make the connection.
+
+![afbeelding](https://user-images.githubusercontent.com/62204721/114183356-e3e18b80-9943-11eb-939c-fd2e4ad26350.png)
 
 
 ## Plans for the future
