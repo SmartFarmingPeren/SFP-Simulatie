@@ -1,15 +1,15 @@
 # SFP-Simulatie
 
 ## Why ROS noetic and Unity
-We use Unity because its able to be used for 3D simulations, a robot can be imported with an .urdf file and its able to make a connection with ROS. We use ROS to move the imported robot, the usage of ROS has been suggested by the Action group.
+Unity is used for it's ability to simulate 3D environments. A robot arm can be improted through the use of the URDF importer package. The Unity ROC-tcp-connector package is used to make the connection between unity and the ROS environment. Together this is used to simulate the robot arm in the 3D environment. The usage of ROS has been suggested by the Action group.
 
 
 ## Requirements
-To setup everything there are some requirements to make the simulation usable.
+To use the environment you need the following:
 * A machine with Ubuntu 20.04 installed for ROS.
 * A machine with Unity 2020.2.0b9 installed.
 
-Both machines need to be able to connect to each other via the internet to create the ROS connection.
+Both machines need to be able to connect to each other over internet to create the ROS connection.
 Unity 2020.2.0b9 is used for compatibility with imported packages for a ROS connection and to import the robot.
 
 ## ROS Setup
@@ -38,7 +38,7 @@ If you're going to use this once or twice (needs to be done every time you want 
 ```
 source /opt/ros/noetic/setup.bash
 ```
-If you want the environment to be automaticcally set up use:
+If you want the environment to be automatically set during login use:
 ```
 echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
@@ -63,7 +63,7 @@ Install the required dependecies with:
 sudo apt-get install python3-pip ros-noetic-robot-state-publisher ros-noetic-moveit ros-noetic-rosbridge-suite ros-noetic-joy ros-noetic-ros-control ros-noetic-ros-controllers
 sudo -H pip3 install rospkg jsonpickle
 ```
-After the dependecies are installed create the workplace with ```catkin_make``` and source the workplace with ```source devel/setup.bash```. The source needs to be done everytime you want to use the workspace.
+After the dependecies are installed create the workplace with ```catkin_make``` and add the workplace with ```source devel/setup.bash```. The source command needs to be executed everytime you want to use the workspace.
 Make the machine discoverable to a ROS connection with.
 ```
 echo "ROS_IP: $(hostname -I)" > src/niryo_moveit/config/params.yaml
@@ -89,7 +89,7 @@ and cut them out of the file, for safety
 
 
 ## Import Robot
-To import robots through a .urdf file the [URDF-Importer](https://github.com/Unity-Technologies/URDF-Importer?path=/com.unity.robotics.urdf-importer#v0.2.0) package has been added to the project. To import the ur10 download the "ur10" and "ur_description/meshes/ur10" folders from the [reveal_packages](https://github.com/PositronicsLab/reveal_packages/tree/master/industrial_arm/scenario/models/urdf) github page, place them in the Unity environment in the "Assets/URDF" folder, right click on the .urdf file and select "Import Robot from Selected URDF file". Then click "Import URDF" and give the new prefab a location.
+To import robots through a .urdf file the [URDF-Importer](https://github.com/Unity-Technologies/URDF-Importer?path=/com.unity.robotics.urdf-importer#v0.2.0) package has been added to the project. To import the ur10e download the "ur10e" and "ur_description/meshes/ur10" folders from the [reveal_packages](https://github.com/PositronicsLab/reveal_packages/tree/master/industrial_arm/scenario/models/urdf) github page, place them in the Unity environment in the "Assets/URDF" folder, right click on the .urdf file and select "Import Robot from Selected URDF file". Then click "Import URDF" and give the new prefab a location.
 For later use the ur10_moveit_config or the ur10_e_moveit_config folder from the [universal_robot](https://github.com/ros-industrial/universal_robot) git needs to be placed in the ROS/src folder.
 
 ## Connect to ROS
