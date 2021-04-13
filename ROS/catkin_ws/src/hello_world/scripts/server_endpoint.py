@@ -3,7 +3,8 @@
 import rospy
 
 from ros_tcp_endpoint import TcpServer, RosPublisher, RosSubscriber, RosService
-from hello_world.msg import Text
+from hello_world.msg import Text, UR10eMoveitJoints
+
 
 def main():
     ros_node_name = rospy.get_param("/TCP_NODE_NAME", 'TCPServer')
@@ -13,7 +14,8 @@ def main():
     rospy.init_node(ros_node_name, anonymous=True)
     
     tcp_server.start({
-        'String': RosSubscriber('HelloWorld', Text, tcp_server)
+        'String': RosSubscriber('HelloWorld', Text, tcp_server),
+        'PublishJoints': RosPublisher('JointsPublisher', UR10eMoveitJoints)
     })
     
     rospy.spin()
