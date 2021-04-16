@@ -3,7 +3,7 @@
 import rospy
 
 from ros_tcp_endpoint import TcpServer, RosPublisher, RosSubscriber, RosService
-from hello_world.msg import Text, UR10eMoveitJoints
+from hello_world.msg import Text, UR10eMoveitJoints, UR10eJoints
 
 
 def main():
@@ -15,7 +15,8 @@ def main():
     
     tcp_server.start({
         'String': RosSubscriber('HelloWorld', Text, tcp_server),
-        'PublishJoints': RosPublisher('JointsPublisher', UR10eMoveitJoints)
+        'PublishJoints': RosPublisher('JointsPublisher', UR10eMoveitJoints),
+        'MoveJoints': RosSubscriber('JointsMover', UR10eJoints, tcp_server)
     })
     
     rospy.spin()

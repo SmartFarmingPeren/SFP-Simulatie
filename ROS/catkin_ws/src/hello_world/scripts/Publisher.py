@@ -14,7 +14,7 @@ def scream():
 
     while not rospy.is_shutdown():
 
-        Msg = Text("Hello World!")
+        Msg = Text("100")
         pub.publish(Msg)
         rate.sleep()
         break

@@ -1,0 +1,1 @@
+string joint_00

@@ -53,6 +53,7 @@ add_message_files(
   FILES
   Text.msg
   UR10eMoveitJoints.msg
+  UR10eJoints.msg
 )
 
 ## Generate services in the 'srv' folder
