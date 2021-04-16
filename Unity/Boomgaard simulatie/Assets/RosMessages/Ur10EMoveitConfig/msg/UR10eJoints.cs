@@ -7,9 +7,9 @@ using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 
 namespace RosMessageTypes.Ur10EMoveitConfig
 {
-    public class UR10eMoveitJoints : Message
+    public class UR10eJoints : Message
     {
-        public const string RosMessageName = "ur10_e_moveit_config/UR10eMoveitJoints";
+        public const string RosMessageName = "ur10_e_moveit_config/UR10eJoints";
 
         public float joint_00;
         public float joint_01;
@@ -17,11 +17,8 @@ namespace RosMessageTypes.Ur10EMoveitConfig
         public float joint_03;
         public float joint_04;
         public float joint_05;
-        public float target_X;
-        public float target_Y;
-        public float Target_Z;
 
-        public UR10eMoveitJoints()
+        public UR10eJoints()
         {
             this.joint_00 = 0.0f;
             this.joint_01 = 0.0f;
@@ -29,12 +26,9 @@ namespace RosMessageTypes.Ur10EMoveitConfig
             this.joint_03 = 0.0f;
             this.joint_04 = 0.0f;
             this.joint_05 = 0.0f;
-            this.target_X = 0.0f;
-            this.target_Y = 0.0f;
-            this.Target_Z = 0.0f;
         }
 
-        public UR10eMoveitJoints(float joint_00, float joint_01, float joint_02, float joint_03, float joint_04, float joint_05, float target_X, float target_Y, float Target_Z)
+        public UR10eJoints(float joint_00, float joint_01, float joint_02, float joint_03, float joint_04, float joint_05)
         {
             this.joint_00 = joint_00;
             this.joint_01 = joint_01;
@@ -42,9 +36,6 @@ namespace RosMessageTypes.Ur10EMoveitConfig
             this.joint_03 = joint_03;
             this.joint_04 = joint_04;
             this.joint_05 = joint_05;
-            this.target_X = target_X;
-            this.target_Y = target_Y;
-            this.Target_Z = Target_Z;
         }
         public override List<byte[]> SerializationStatements()
         {
@@ -55,9 +46,6 @@ namespace RosMessageTypes.Ur10EMoveitConfig
             listOfSerializations.Add(BitConverter.GetBytes(this.joint_03));
             listOfSerializations.Add(BitConverter.GetBytes(this.joint_04));
             listOfSerializations.Add(BitConverter.GetBytes(this.joint_05));
-            listOfSerializations.Add(BitConverter.GetBytes(this.target_X));
-            listOfSerializations.Add(BitConverter.GetBytes(this.target_Y));
-            listOfSerializations.Add(BitConverter.GetBytes(this.Target_Z));
 
             return listOfSerializations;
         }
@@ -76,28 +64,19 @@ namespace RosMessageTypes.Ur10EMoveitConfig
             offset += 4;
             this.joint_05 = BitConverter.ToSingle(data, offset);
             offset += 4;
-            this.target_X = BitConverter.ToSingle(data, offset);
-            offset += 4;
-            this.target_Y = BitConverter.ToSingle(data, offset);
-            offset += 4;
-            this.Target_Z = BitConverter.ToSingle(data, offset);
-            offset += 4;
 
             return offset;
         }
 
         public override string ToString()
         {
-            return "UR10eMoveitJoints: " +
+            return "UR10eJoints: " +
             "\njoint_00: " + joint_00.ToString() +
             "\njoint_01: " + joint_01.ToString() +
             "\njoint_02: " + joint_02.ToString() +
             "\njoint_03: " + joint_03.ToString() +
             "\njoint_04: " + joint_04.ToString() +
-            "\njoint_05: " + joint_05.ToString() +
-            "\ntarget_X: " + target_X.ToString() +
-            "\ntarget_Y: " + target_Y.ToString() +
-            "\nTarget_Z: " + Target_Z.ToString();
+            "\njoint_05: " + joint_05.ToString();
         }
     }
 }
