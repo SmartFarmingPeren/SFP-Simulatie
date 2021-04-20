@@ -11,59 +11,29 @@ namespace RosMessageTypes.Ur10EMoveitConfig
     {
         public const string RosMessageName = "ur10_e_moveit_config/UR10eJoints";
 
-        public float joint_00;
-        public float joint_01;
-        public float joint_02;
-        public float joint_03;
-        public float joint_04;
-        public float joint_05;
+        public double joint_00;
 
         public UR10eJoints()
         {
-            this.joint_00 = 0.0f;
-            this.joint_01 = 0.0f;
-            this.joint_02 = 0.0f;
-            this.joint_03 = 0.0f;
-            this.joint_04 = 0.0f;
-            this.joint_05 = 0.0f;
+            this.joint_00 = 0.0;
         }
 
-        public UR10eJoints(float joint_00, float joint_01, float joint_02, float joint_03, float joint_04, float joint_05)
+        public UR10eJoints(double joint_00)
         {
             this.joint_00 = joint_00;
-            this.joint_01 = joint_01;
-            this.joint_02 = joint_02;
-            this.joint_03 = joint_03;
-            this.joint_04 = joint_04;
-            this.joint_05 = joint_05;
         }
         public override List<byte[]> SerializationStatements()
         {
             var listOfSerializations = new List<byte[]>();
             listOfSerializations.Add(BitConverter.GetBytes(this.joint_00));
-            listOfSerializations.Add(BitConverter.GetBytes(this.joint_01));
-            listOfSerializations.Add(BitConverter.GetBytes(this.joint_02));
-            listOfSerializations.Add(BitConverter.GetBytes(this.joint_03));
-            listOfSerializations.Add(BitConverter.GetBytes(this.joint_04));
-            listOfSerializations.Add(BitConverter.GetBytes(this.joint_05));
 
             return listOfSerializations;
         }
 
         public override int Deserialize(byte[] data, int offset)
         {
-            this.joint_00 = BitConverter.ToSingle(data, offset);
-            offset += 4;
-            this.joint_01 = BitConverter.ToSingle(data, offset);
-            offset += 4;
-            this.joint_02 = BitConverter.ToSingle(data, offset);
-            offset += 4;
-            this.joint_03 = BitConverter.ToSingle(data, offset);
-            offset += 4;
-            this.joint_04 = BitConverter.ToSingle(data, offset);
-            offset += 4;
-            this.joint_05 = BitConverter.ToSingle(data, offset);
-            offset += 4;
+            this.joint_00 = BitConverter.ToDouble(data, offset);
+            offset += 8;
 
             return offset;
         }
@@ -71,12 +41,7 @@ namespace RosMessageTypes.Ur10EMoveitConfig
         public override string ToString()
         {
             return "UR10eJoints: " +
-            "\njoint_00: " + joint_00.ToString() +
-            "\njoint_01: " + joint_01.ToString() +
-            "\njoint_02: " + joint_02.ToString() +
-            "\njoint_03: " + joint_03.ToString() +
-            "\njoint_04: " + joint_04.ToString() +
-            "\njoint_05: " + joint_05.ToString();
+            "\njoint_00: " + joint_00.ToString();
         }
     }
 }

@@ -1,1 +1,1 @@
-﻿string joint_00
+﻿float64 joint_00

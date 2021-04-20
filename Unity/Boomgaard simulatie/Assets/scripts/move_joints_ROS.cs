@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ROSMSG = RosMessageTypes.HelloWorld.String;
+// using ROSMSG = RosMessageTypes.HelloWorld.String;
+using RosMessageTypes.Ur10EMoveitConfig;
+using ROSMSG = RosMessageTypes.Ur10EMoveitConfig.UR10eJoints;
 using Unity.Robotics.ROSTCPConnector;
 using Unity.Robotics.ROSTCPConnector.ROSGeometry;
 
@@ -18,7 +20,7 @@ public class move_joints_ROS : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ROSConnection.instance.Subscribe<ROSMSG>("HelloWorld", JointsUpdate);
+        ROSConnection.instance.Subscribe<ROSMSG>("JointsMover", JointsUpdate);
 
         // Find and store the joints in jointArticulationBodies
         jointArticulationBodies = new ArticulationBody[numRobotJoints];
@@ -47,12 +49,11 @@ public class move_joints_ROS : MonoBehaviour
     void JointsUpdate(ROSMSG msg)
     {
         Debug.Log(msg);
-        float joint_00 = float.Parse(msg.message);
 
         ArticulationDrive jointArticulationDrive = jointArticulationBodies[0].xDrive;
 
         // place the target in each jointArticulationDrive
-        jointArticulationDrive.target = joint_00;
+        jointArticulationDrive.target = (float)msg.joint_00;
 
         // replace joint xDrive with jointArticulationDrive
         jointArticulationBodies[0].xDrive = jointArticulationDrive;

@@ -3645,7 +3645,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a69e7e00723953f4aa2cb350944d5ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topicName: PublishJoints
   ur10e: {fileID: 665800586}
   target: {fileID: 1429083958}
 --- !u!114 &395874955
@@ -13032,7 +13031,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a69e7e00723953f4aa2cb350944d5ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topicName: PublishJoints
   ur10e: {fileID: 665800586}
   target: {fileID: 1429083958}
 --- !u!43 &1596250453

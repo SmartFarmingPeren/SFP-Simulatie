@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RosMessageTypes.Ur10EMoveitConfig;
+using ROSMSG = RosMessageTypes.Ur10EMoveitConfig.UR10eJoints;
 using Unity.Robotics.ROSTCPConnector;
 using Unity.Robotics.ROSTCPConnector.ROSGeometry;
 
@@ -11,7 +12,7 @@ public class publish_arm_target : MonoBehaviour
     private ROSConnection ros;
 
     // Variables required for ROS communication
-    public string topicName = "JointsPublisher";
+    string topicName = "SubJoints";
 
     public GameObject ur10e;
     public GameObject target;
@@ -70,6 +71,10 @@ public class publish_arm_target : MonoBehaviour
 
 
         // Send the message to server_endpoint.py running in ROS
-        ros.Send(topicName, jointInformation);
+        // ros.Send(topicName, jointInformation);
+
+        UR10eJoints msg = new UR10eJoints();
+        msg.joint_00 = jointArticulationBodies[0].xDrive.target;
+        ros.Send(topicName, msg);
     }
 }
