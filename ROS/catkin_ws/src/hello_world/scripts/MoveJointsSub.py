@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 
 import rospy
+import MoveJoints as mj
 from hello_world.msg import UR10eMoveitJoints, UR10eJoints
 
 TOPIC_NAME = 'JointsSub'
-NODE_NAME = 'Jointsreader'
+NODE_NAME = 'JointsreadAndSender'
 
 
 def callback(data):
     rospy.loginfo(rospy.get_caller_id() + "I heard:\n%s", data)
+    mj.SendJoints(data)
 
 def listener():
     rospy.init_node(NODE_NAME, anonymous=True)
