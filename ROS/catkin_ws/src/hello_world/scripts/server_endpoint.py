@@ -15,7 +15,7 @@ def main():
     
     tcp_server.start({
         'String': RosSubscriber('HelloWorld', Text, tcp_server),
-        'PublishJoints': RosPublisher('JointsPublisher', UR10eMoveitJoints),
+        'SubJoints': RosPublisher('JointsSub', UR10eJoints),
         'MoveJoints': RosSubscriber('JointsMover', UR10eJoints, tcp_server)
     })
     
