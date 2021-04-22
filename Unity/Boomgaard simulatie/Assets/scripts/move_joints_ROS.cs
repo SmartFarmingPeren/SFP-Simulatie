@@ -4,6 +4,7 @@ using UnityEngine;
 // using ROSMSG = RosMessageTypes.HelloWorld.String;
 using RosMessageTypes.Ur10EMoveitConfig;
 using ROSMSG = RosMessageTypes.Ur10EMoveitConfig.UR10eJoints;
+// using ROSMSG = RosMessageTypes.Ur10EMoveitConfig.UR10eMoveitJoints;
 using Unity.Robotics.ROSTCPConnector;
 using Unity.Robotics.ROSTCPConnector.ROSGeometry;
 
@@ -12,7 +13,7 @@ public class move_joints_ROS : MonoBehaviour
     public GameObject ur10e;
 
     private int numRobotJoints = 6;
-    private readonly Quaternion pickOrientation = Quaternion.Euler(90, 90, 0);
+    // private readonly Quaternion pickOrientation = Quaternion.Euler(90, 90, 0);
 
     // Articulation Bodies
     private ArticulationBody[] jointArticulationBodies;
@@ -50,12 +51,33 @@ public class move_joints_ROS : MonoBehaviour
     {
         Debug.Log(msg);
 
-        ArticulationDrive jointArticulationDrive = jointArticulationBodies[0].xDrive;
+        /*ArticulationDrive jointArticulationDrive = jointArticulationBodies[0].xDrive;
 
         // place the target in each jointArticulationDrive
         jointArticulationDrive.target = (float)msg.joint_00;
 
         // replace joint xDrive with jointArticulationDrive
-        jointArticulationBodies[0].xDrive = jointArticulationDrive;
+        jointArticulationBodies[0].xDrive = jointArticulationDrive;*/
+
+        ArticulationDrive joint0 = jointArticulationBodies[0].xDrive;
+        ArticulationDrive joint1 = jointArticulationBodies[1].xDrive;
+        ArticulationDrive joint2 = jointArticulationBodies[2].xDrive;
+        ArticulationDrive joint3 = jointArticulationBodies[3].xDrive;
+        ArticulationDrive joint4 = jointArticulationBodies[4].xDrive;
+        ArticulationDrive joint5 = jointArticulationBodies[5].xDrive;
+
+        joint0.target = (float)msg.joint_00;
+        joint1.target = (float)msg.joint_01;
+        joint2.target = (float)msg.joint_02;
+        joint3.target = (float)msg.joint_03;
+        joint4.target = (float)msg.joint_04;
+        joint5.target = (float)msg.joint_05;
+
+        jointArticulationBodies[0].xDrive = joint0;
+        jointArticulationBodies[1].xDrive = joint1;
+        jointArticulationBodies[2].xDrive = joint2;
+        jointArticulationBodies[3].xDrive = joint3;
+        jointArticulationBodies[4].xDrive = joint4;
+        jointArticulationBodies[5].xDrive = joint5;
     }
 }

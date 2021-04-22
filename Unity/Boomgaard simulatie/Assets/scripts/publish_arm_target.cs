@@ -18,7 +18,7 @@ public class publish_arm_target : MonoBehaviour
     public GameObject target;
 
     private int numRobotJoints = 6;
-    private readonly Quaternion pickOrientation = Quaternion.Euler(90, 90, 0);
+    // private readonly Quaternion pickOrientation = Quaternion.Euler(90, 90, 0);
 
     // Articulation Bodies
     private ArticulationBody[] jointArticulationBodies;
@@ -71,10 +71,15 @@ public class publish_arm_target : MonoBehaviour
 
 
         // Send the message to server_endpoint.py running in ROS
-        // ros.Send(topicName, jointInformation);
+        //ros.Send(topicName, jointInformation);
 
         UR10eJoints msg = new UR10eJoints();
         msg.joint_00 = jointArticulationBodies[0].xDrive.target;
+        msg.joint_01 = jointArticulationBodies[1].xDrive.target;
+        msg.joint_02 = jointArticulationBodies[2].xDrive.target;
+        msg.joint_03 = jointArticulationBodies[3].xDrive.target;
+        msg.joint_04 = jointArticulationBodies[4].xDrive.target;
+        msg.joint_05 = jointArticulationBodies[5].xDrive.target;
         ros.Send(topicName, msg);
     }
 }
