@@ -11,11 +11,12 @@ def main():
     buffer_size = rospy.get_param("/TCP_BUFFER_SIZE", 1024)
     connections = rospy.get_param("/TCP_CONNECTIONS", 10)
     tcp_server = TcpServer(ros_node_name, buffer_size, connections)
+    # tcp_server = TcpServer(ros_node_name)
     rospy.init_node(ros_node_name, anonymous=True)
     
     tcp_server.start({
-        'String': RosSubscriber('HelloWorld', Text, tcp_server),    # Hypothese: RosSubscriber used to receive the Unity Subscribe 
-        'SubJoints': RosPublisher('JointsSub', UR10eJoints),        # RosPublisher used to receive the unity Publisher node, no tcp_server needed
+        'String': RosSubscriber('HelloWorld', Text, tcp_server),
+        'SubJoints': RosPublisher('JointsSub', UR10eJoints, queue_size=10),
         'MoveJoints': RosSubscriber('JointsMover', UR10eJoints, tcp_server)
     })
     
