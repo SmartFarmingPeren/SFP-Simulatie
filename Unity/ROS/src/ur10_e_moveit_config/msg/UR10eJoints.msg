@@ -4,3 +4,6 @@ float64 joint_02
 float64 joint_03
 float64 joint_04
 float64 joint_05
+float64 var1
+float64 var2
+float64 var3

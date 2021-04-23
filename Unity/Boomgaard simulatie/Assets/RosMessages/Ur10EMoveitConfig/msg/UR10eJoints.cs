@@ -17,6 +17,9 @@ namespace RosMessageTypes.Ur10EMoveitConfig
         public double joint_03;
         public double joint_04;
         public double joint_05;
+        public double var1;
+        public double var2;
+        public double var3;
 
         public UR10eJoints()
         {
@@ -26,9 +29,12 @@ namespace RosMessageTypes.Ur10EMoveitConfig
             this.joint_03 = 0.0;
             this.joint_04 = 0.0;
             this.joint_05 = 0.0;
+            this.var1 = 0.0;
+            this.var2 = 0.0;
+            this.var3 = 0.0;
         }
 
-        public UR10eJoints(double joint_00, double joint_01, double joint_02, double joint_03, double joint_04, double joint_05)
+        public UR10eJoints(double joint_00, double joint_01, double joint_02, double joint_03, double joint_04, double joint_05, double var1, double var2, double var3)
         {
             this.joint_00 = joint_00;
             this.joint_01 = joint_01;
@@ -36,6 +42,9 @@ namespace RosMessageTypes.Ur10EMoveitConfig
             this.joint_03 = joint_03;
             this.joint_04 = joint_04;
             this.joint_05 = joint_05;
+            this.var1 = var1;
+            this.var2 = var2;
+            this.var3 = var3;
         }
         public override List<byte[]> SerializationStatements()
         {
@@ -46,6 +55,9 @@ namespace RosMessageTypes.Ur10EMoveitConfig
             listOfSerializations.Add(BitConverter.GetBytes(this.joint_03));
             listOfSerializations.Add(BitConverter.GetBytes(this.joint_04));
             listOfSerializations.Add(BitConverter.GetBytes(this.joint_05));
+            listOfSerializations.Add(BitConverter.GetBytes(this.var1));
+            listOfSerializations.Add(BitConverter.GetBytes(this.var2));
+            listOfSerializations.Add(BitConverter.GetBytes(this.var3));
 
             return listOfSerializations;
         }
@@ -64,6 +76,12 @@ namespace RosMessageTypes.Ur10EMoveitConfig
             offset += 8;
             this.joint_05 = BitConverter.ToDouble(data, offset);
             offset += 8;
+            this.var1 = BitConverter.ToDouble(data, offset);
+            offset += 8;
+            this.var2 = BitConverter.ToDouble(data, offset);
+            offset += 8;
+            this.var3 = BitConverter.ToDouble(data, offset);
+            offset += 8;
 
             return offset;
         }
@@ -76,7 +94,10 @@ namespace RosMessageTypes.Ur10EMoveitConfig
             "\njoint_02: " + joint_02.ToString() +
             "\njoint_03: " + joint_03.ToString() +
             "\njoint_04: " + joint_04.ToString() +
-            "\njoint_05: " + joint_05.ToString();
+            "\njoint_05: " + joint_05.ToString() +
+            "\nvar1: " + var1.ToString() +
+            "\nvar2: " + var2.ToString() +
+            "\nvar3: " + var3.ToString();
         }
     }
 }

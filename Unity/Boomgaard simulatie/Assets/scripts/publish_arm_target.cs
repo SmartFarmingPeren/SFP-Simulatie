@@ -80,6 +80,12 @@ public class publish_arm_target : MonoBehaviour
         msg.joint_03 = jointArticulationBodies[3].xDrive.target;
         msg.joint_04 = jointArticulationBodies[4].xDrive.target;
         msg.joint_05 = jointArticulationBodies[5].xDrive.target;
+        /*msg.var1 = (float)56;
+        msg.var2 = (float)64;
+        msg.var3 = (float)72;*/
+        msg.var1 = target.transform.position.x;
+        msg.var2 = target.transform.position.y;
+        msg.var3 = target.transform.position.z;
         ros.Send(topicName, msg);
     }
 }
