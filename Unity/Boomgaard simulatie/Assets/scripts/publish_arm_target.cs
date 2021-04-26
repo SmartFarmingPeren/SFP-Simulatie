@@ -48,6 +48,7 @@ public class publish_arm_target : MonoBehaviour
 
         string wrist_3_link = wrist_2_link + "/wrist_3_link";
         jointArticulationBodies[5] = ur10e.transform.Find(wrist_3_link).GetComponent<ArticulationBody>();
+        Publish();
     }
 
     // Update is called once per frame
