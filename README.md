@@ -36,7 +36,7 @@ afterwhich you can use the following command to run a ROS script
 > roslaunch hello_world *launchfile*
 The current launchfiles are used for:
 launchfile | usage | script 
----------------------------
+-----------|-------|-------
 *hello.launch* | test script to send "100" to the unity machine **depricated** | Publisher.py
 *read_joints.launch* |test script to read Unity messages | Subscriber.py
 *send_joints.launch* | Used to read incoming joint data and send outgoing joint data | MoveJointsSub.py, MoveJoints.py
