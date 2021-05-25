@@ -1,9 +1,0 @@
-﻿float joint_00
-float joint_01
-float joint_02
-float joint_03
-float joint_04
-float joint_05
-float target_X
-float target_Y
-float Target_Z
