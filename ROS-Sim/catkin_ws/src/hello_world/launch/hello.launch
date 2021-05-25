@@ -1,5 +1,0 @@
-<launch>
-    <rosparam file="$(find hello_world)/config/params.yaml" command="load"/>
-    <node name="server_endpoint" pkg="hello_world" type="server_endpoint.py" args="--wait" output="screen" respawn="true" />
-    <node name="Publisher" pkg="hello_world" type="Publisher.py" args="--wait" output="screen" respawn="true"/>
-</launch>
