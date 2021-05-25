@@ -30,10 +30,12 @@ rosdep update
 ## ROS usage
 
 to compile the ROS workspace you can use the following command
-> catkin_make
+```catkin_make```
+
 afterwhich you can use the following command to run a ROS script
-> source devel/setup.bash
-> roslaunch hello_world *launchfile*
+```source devel/setup.bash```
+```roslaunch hello_world *launchfile*```
+
 The current launchfiles are used for:
 launchfile | usage | script 
 -----------|-------|-------
