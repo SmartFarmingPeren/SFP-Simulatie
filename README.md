@@ -56,7 +56,7 @@ rosdep update
 ## ROS usage
 
 to compile the ROS workspace you can use the following command
-```catkin_make```
+```catkin build```
 
 afterwhich you can use the following command to run a ROS script
 ```source devel/setup.bash```
