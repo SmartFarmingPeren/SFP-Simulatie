@@ -11,6 +11,7 @@ class Section:
         self.thickness: int = thickness
         self.count: int = 0
         self.parent = parent
+        self.children = []
 
     def next(self):
         """
@@ -26,8 +27,10 @@ class Section:
                 next_dir[count] = -THRESHOLD
         next_pos = self.pos + next_dir
         self.add_thickness()
-        return Section(pos=next_pos, direction=self.direction, parent=self)
-
+        new_sec = Section(pos=next_pos, direction=self.direction, parent=self)
+        self.children.append(new_sec)
+        return new_sec
+    
     def reset(self):
         """
         This function is used to reset the direction of a section

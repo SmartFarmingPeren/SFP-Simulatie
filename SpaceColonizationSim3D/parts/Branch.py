@@ -24,6 +24,8 @@ class Branch:
         Creates a new branch with age 1 and gives it the first section
         :rtype: Returns the newly generated branch
         """
+        for sec in self.sections:
+            print(sec)
         new_branch = Branch(age=1, parent=self)
         new_branch.sections.append(section)
         self.children.append(new_branch)
@@ -94,7 +96,6 @@ class Branch:
     #             other_section = self.sections[other_i]
     #             extra = Section(section.pos - other_section.pos, section.direction)
     #             self.sections.insert(i, extra)
-
 
 def get_next(node):
     yield node
