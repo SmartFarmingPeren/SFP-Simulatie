@@ -17,8 +17,34 @@ On the SFP-Simulation .vbox ROS-noetic is already installed.
 If you wish to use a different machine for ROS development follow the below tutorials
 
 To install and setup ROS two tutorials are used.
-* To install ROS http://wiki.ros.org/Installation/Ubuntu
-* For the further setup of ROS https://github.com/Unity-Technologies/Unity-Robotics-Hub/blob/main/tutorials/pick_and_place/0_ros_setup.md
+Setup sources.list
+```
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+```
+
+Setup keys
+```
+curl -sSL 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xC1CF6E31E6BADE8868B172B4F42ED6FBAB17C654' | sudo apt-key add -
+```
+
+Installation ROS
+```
+sudo apt update
+sudo apt install ros-noetic-desktop-full
+```
+
+Setup environment
+```
+echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+
+Install apt packages.
+```
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install python3-pip ros-noetic-robot-state-publisher ros-noetic-moveit ros-noetic-rosbridge-suite ros-noetic-joy ros-noetic-ros-control ros-noetic-ros-controllers
+sudo -H pip3 install rospkg jsonpickle
+```
 
 Install dependencies.
 ```
@@ -30,13 +56,15 @@ rosdep update
 ## ROS usage
 
 to compile the ROS workspace you can use the following command
-> catkin_make
+```catkin build```
+
 afterwhich you can use the following command to run a ROS script
-> source devel/setup.bash
-> roslaunch hello_world *launchfile*
+```source devel/setup.bash```
+```roslaunch hello_world *launchfile*```
+
 The current launchfiles are used for:
 launchfile | usage | script 
----------------------------
+-----------|-------|-------
 *hello.launch* | test script to send "100" to the unity machine **depricated** | Publisher.py
 *read_joints.launch* |test script to read Unity messages | Subscriber.py
 *send_joints.launch* | Used to read incoming joint data and send outgoing joint data | MoveJointsSub.py, MoveJoints.py
