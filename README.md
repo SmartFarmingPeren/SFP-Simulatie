@@ -18,7 +18,13 @@ If you wish to use a different machine for ROS development follow the below tuto
 
 To install and setup ROS two tutorials are used.
 * To install ROS http://wiki.ros.org/Installation/Ubuntu
-* For the further setup of ROS https://github.com/Unity-Technologies/Unity-Robotics-Hub/blob/main/tutorials/pick_and_place/0_ros_setup.md
+
+Install apt packages.
+```
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install python3-pip ros-noetic-robot-state-publisher ros-noetic-moveit ros-noetic-rosbridge-suite ros-noetic-joy ros-noetic-ros-control ros-noetic-ros-controllers
+sudo -H pip3 install rospkg jsonpickle
+```
 
 Install dependencies.
 ```
