@@ -62,4 +62,13 @@ For more information about the CMakeLists.txt it is recommended to watch or read
 ### IP in params.yaml
 You need to make a params.yaml file in the config folder of the hello_world project. In this file you can copy the contents of the _params.yaml and replace the *YOUR IP HERE* with the ROS machine's IP
 
-## plans for the future
+# Installation of action packages
+
+If you choose to do so by hand follow the installation down below. If you choose to go for the VM all you need to do is: 
+1. clone the git repo
+2. Run `catkin build` 
+3. `chmod +x /home/Ubuntu/SFP-Actie/start_program.sh`
+
+## Working with ROS
+in the root folder the file start_program.sh can be found. This bash script can be used to start ROS, Gazebo and RVIZ. If new launch files are made all you need to change is this file with the appropriate launch files. 
+
