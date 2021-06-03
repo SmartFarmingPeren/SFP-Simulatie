@@ -17,7 +17,27 @@ On the SFP-Simulation .vbox ROS-noetic is already installed.
 If you wish to use a different machine for ROS development follow the below tutorials
 
 To install and setup ROS two tutorials are used.
-* To install ROS http://wiki.ros.org/Installation/Ubuntu
+Setup sources.list
+```
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+```
+
+Setup keys
+```
+curl -sSL 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xC1CF6E31E6BADE8868B172B4F42ED6FBAB17C654' | sudo apt-key add -
+```
+
+Installation ROS
+```
+sudo apt update
+sudo apt install ros-noetic-desktop-full
+```
+
+Setup environment
+```
+echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
 
 Install apt packages.
 ```
